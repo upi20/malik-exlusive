@@ -1,0 +1,9 @@
+1. Laporan penjualan belum ada (muncul)
+2. Jumlah penjualan belum mengurangi stock barang di laporan suplayer
+3. Laporan packer (jumlah)
+4. Untuk yg admin fitur dashboard nya di hilangkan [sudah]
+5. Stock di administrator belum berkurang
+6. Pembelian barang yg sama belum bisa di split 2 vendor [sudah]
+Cth : sam-A 5, titan 3 malsi 2
+7. Di laporan packer ada rekap nama packer dan jumlah packing sebulan berdasarkan jumlah resi
+8. Klo ada penjualan lebih dari satu model ketika di ubah statusnya itu langsung berubah semuanya, tapi quantity dan harganya ngehitungnya cuma 1
