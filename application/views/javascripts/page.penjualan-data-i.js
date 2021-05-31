@@ -1,9 +1,11 @@
 let vendor_jml = 1;
+let vendor_jml_ubah = 1;
 let prod_id_now = 0;
 let pede_id_now = 0;
 let pede_jumlah_now = 0;
 let penj_id_now = "";
 let string_json_retur = "";
+let data_sebelumnya = [];
 $(function () {
 	let total_harga = 0;
 	$('#dibayar').autoNumeric('init');
@@ -338,21 +340,7 @@ $(function () {
 		$("#labelHapus").text('Form Ubah Status');
 
 		// get data dan set informasi penjualan
-		$.ajax({
-			method: 'post',
-			url: '<?= base_url() ?>penjualan/data/getDetailPede',
-			data: {
-				id: pede_id
-			}
-		}).done(function (data) {
-			$("#tbl-id").text(data.penj_id);
-			$("#tbl-resi").text(data.penj_no_resi);
-			$("#tbl-berkas").html('<a style="text-align:right;" href="<?php echo base_url();?>gambar/' + data.penj_berkas + '">' + data.penj_berkas + '</p>');
-			$("#tbl-toko").text(data.toko);
-			$("#tbl-konsumen").text(data.penj_nama);
-			$("#tbl-produk").text(data.prod_nama);
-			$("#tbl-qty").text(data.pede_jumlah);
-		})
+		setInformasiPenjualan(pede_id, '#vendor-informasi-penjualan');
 
 
 		// set tanggal kirim
@@ -382,7 +370,7 @@ $(function () {
 		status_penjualan.append("<option value='kirim'>Kirim</option>");
 
 		// Set Packer
-		$('#packer').html('<option value="" selected>Pilih Packer</option>')
+		$('#packer').append('<option value="" selected>Pilih Packer</option>')
 		for (let i = 0; i < packer.length; i++) {
 			$('#packer').append('<option value="' + packer[i].split('|')[0] + '">' + packer[i].split('|')[1] + '</option>')
 		}
@@ -456,6 +444,11 @@ $(function () {
 	// tambah vendor
 	$('#vendor-tambah').click(function () {
 		addVendor();
+	});
+
+	// tambah vendor ubah
+	$('#ubah-vendor-tambah').click(function () {
+		addVendor(false, 'ubah');
 	});
 
 	// handle submit kirim =============================================================================================
@@ -535,7 +528,6 @@ $(function () {
 			const vendor = JSON.stringify({ vendor: vendor_to_json, jumlah: jumlah_to_json, stok: stok_to_json });
 			ajax = window.apiClient.pengadaanTambah.penjualanKirim(id, vendor, packer, tanggal_kirim)
 				.done(function (data) {
-					console.log(data);
 					$("#advanced-usage").dataTable().fnDestroy();
 					$.message('Berhasil diubah.', 'Transaksi Status', 'success');
 					dynamic();
@@ -803,7 +795,6 @@ $(function () {
 				`);
 			},
 			error($xhr) {
-				console.log($xhr);
 				$.message('Kesalahan jaringan', 'Retur', 'error');
 				$('#myModal3').modal('toggle');
 			},
@@ -818,6 +809,7 @@ $(function () {
 		$('#myModal3').modal('toggle');
 	});
 
+	// eksekusi retur
 	$("#clickHapus").click(function () {
 		const ele = this;
 		const id = $("#idHapus").val() + "|" + $("#penj_id-retur").val() + "|" + $("#prod_id-retur").val();
@@ -825,7 +817,6 @@ $(function () {
 		ele.setAttribute('disabled', '');
 		ajax = window.apiClient.pengadaanTambah.penjualanRetur(id, string_json_retur, tanggal)
 			.done(function (data) {
-				console.log(data);
 				$("#advanced-usage").dataTable().fnDestroy();
 				$.message('Berhasil diubah.', 'Transaksi Status', 'success');
 				dynamic();
@@ -842,6 +833,78 @@ $(function () {
 	// handle button ubah ==============================================================================================
 	$('#advanced-usage tbody').on('click', '.btn-ubah', function () {
 		const pede_id = this.dataset.id;
+		const prod_id = this.dataset.prod_id;
+		prod_id_now = prod_id;
+		pede_id_now = pede_id;
+		// set informasi penjualan
+		setInformasiPenjualan(pede_id, '#ubah-vendor-informasi-penjualan', 'ubah');
+
+		// vendor clear
+		$("#ubah-vendor-select-1").val("");
+		$("#ubah-jumlah-1").val("");
+		$("#ubah-stok-1").val("");
+		$("#ubah-stok-sisa-1").val("");
+
+		// set vendor 1
+		$("#ubah-vendor-select-1").html('');
+		let vendor_html = '<option value="">Pilih Vendor</option>';
+		vendor.forEach(e => {
+			e = e.split("|");
+			vendor_html += `<option value="${e[0]}" >${e[1]}</option>`;
+		});
+
+		// set list vendor
+		$("#ubah-vendor-select-1").append(vendor_html);
+
+		// set vendor
+		clearVendor('ubah');
+		$.ajax({
+			method: 'post',
+			url: '<?= base_url() ?>penjualan/data/getVendorByIdPeDe',
+			data: {
+				id: pede_id
+			},
+			success(data) {
+				if (data) {
+					data_sebelumnya = {
+						id: [],
+						vendor_id: [],
+						jumlah: [],
+						pede_id: []
+					};
+
+					data.forEach((e) => {
+						data_sebelumnya.id.push(e.id);
+						data_sebelumnya.vendor_id.push(e.vendor_id);
+						data_sebelumnya.jumlah.push(e.jumlah);
+						data_sebelumnya.pede_id.push(e.pede_id);
+					});
+					data.forEach((e, i) => {
+						if (i) {
+							addVendor({ vendor_id: e.vendor_id, jumlah: e.jumlah, stok: 0 }, 'ubah');
+							setStok(e.vendor_id, i + 1, prod_id, 'ubah');
+						} else {
+							$("#ubah-vendor-select-1").val(e.vendor_id);
+							$("#ubah-jumlah-1").val(e.jumlah);
+							setStok(e.vendor_id, 1, prod_id, 'ubah');
+						}
+					});
+				}
+			},
+			error($xhr) {
+				console.log($xhr)
+			}
+		})
+
+		// Set Packer
+		$('#ubah-packer').html('<option value="" selected>Pilih Packer</option>')
+		for (let i = 0; i < packer.length; i++) {
+			$('#ubah-packer').append('<option value="' + packer[i].split('|')[0] + '">' + packer[i].split('|')[1] + '</option>')
+		}
+
+		// set tanggal
+		$('#myModal6').modal('toggle');
+
 	});
 
 })
@@ -873,24 +936,91 @@ function ggwp(el, ev, pede_id) {
 	})
 }
 
-function deleteVendor(v) {
-	$(`#vendor-${v}`).remove();
+function deleteVendor(v, preid = null) {
+	const pre = preid ? preid + "-" : "";
+	$(`#${pre}vendor-${v}`).remove();
 }
 
-function clearVendor() {
-	for (let i = vendor_jml; i >= 2; i--) {
-		deleteVendor(i);
-	}
+// clear vendor
+function clearVendor(preid = null) {
+	const pre = preid ? preid + "-" : "";
+	$(`.${pre}vendor-row`).each(function () {
+		$(this).remove();
+	});
 	vendor_jml = 1;
+	vendor_jml_ubah = 1;
 }
+// set informasi penjualan =============================================================================================
+function setInformasiPenjualan(pede_id, ele, preid = '') {
+	$(ele).html(`<div style="padding:0 15px;">Loading, please wait.</div>`);
+	$.ajax({
+		method: 'post',
+		url: '<?= base_url() ?>penjualan/data/getDetailPede',
+		data: {
+			id: pede_id
+		}
+	}).done(function (data) {
+		$(ele).html(`
+			<div style="padding:0 15px;">
+				<h4 style=" margin-top:0">Informasi Penjualan</h4>
+				<table class="tabel">
+					<tr>
+						<td>Toko</td>
+						<td>:</td>
+						<td>${data.toko}</td>
+					</tr>
+					<tr>
+						<td>ID</td>
+						<td>:</td>
+						<td>${data.penj_id}</td>
+					</tr>
+					<tr>
+						<td>No. Resi</td>
+						<td>:</td>
+						<td>${data.penj_no_resi}</td>
+					</tr>
+					<tr>
+						<td>Berkas</td>
+						<td>:</td>
+						<td><a style="text-align:right;" href="<?php echo base_url();?>gambar/${data.penj_berkas}">${data.penj_berkas}</p></td>
+					</tr>
+				</table>
 
+				<table class="tabel">
+					<tr>
+						<td>Konsumen</td>
+						<td>:</td>
+						<td>${data.penj_nama}</td>
+					</tr>
+					<tr>
+						<td>Produk</td>
+						<td>:</td>
+						<td>${data.prod_nama}</td>
+					</tr>
+					<tr>
+						<td>Qty</td>
+						<td>:</td>
+						<td>${data.pede_jumlah}</td>
+					</tr>
+				</table>
+			</div>
+		`);
 
+		if (preid == "ubah") {
+			$("#ubah-tanggal").val(data.pede_tanggal_kirim.split(" ")[0]);
+			$("#ubah-packer").val(data.pack_id);
+		}
+	}).error(() => {
+		$(ele).html(`Network Erorr.`);
+	})
+}
 
 // vendor ==============================================================================================================
-function addVendor(data = false) {
+function addVendor(data = false, preid = false) {
 	let vendor_id = "";
 	let jumlah = "";
 	let stok = "";
+	const pre = preid ? preid + "-" : "";
 	if (data) {
 		vendor_id = data.vendor_id;
 		jumlah = data.jumlah;
@@ -898,6 +1028,7 @@ function addVendor(data = false) {
 	}
 
 	vendor_jml++;
+	vendor_jml_ubah++;
 	let vendor_html = '<option value="">Pilih Vendor</option>';
 	vendor.forEach(e => {
 		e = e.split("|");
@@ -907,49 +1038,50 @@ function addVendor(data = false) {
 			vendor_html += `<option value="${e[0]}">${e[1]}</option>`;
 		}
 	});
-	$("#vendors").append(`
-		<div class="row" id="vendor-${vendor_jml}">
-			<div class="col-md-3" id="pilih-vendor">
+	$(`#${pre}vendors`).append(`
+		<div class="row ${pre}vendor-row" id="${pre}vendor-${vendor_jml}">
+			<div class="col-md-3" id="${pre}pilih-vendor">
 				<br>
-				<select id="vendor-select-${vendor_jml}" name="vendor-select-${vendor_jml}" class="form-control vendor-select" onchange="handleChangeVendor(this)" data-no="${vendor_jml}">
+				<select id="${pre}vendor-select-${vendor_jml}" name="vendor-select-${vendor_jml}" class="form-control vendor-select" onchange="handleChangeVendor(this, ${preid ? "'" + preid + "'" : false})" data-no="${vendor_jml}">
 					${vendor_html}
 				</select>
 			</div>
 			<div class="col-md-9 p-0 m-0">
 				<div class="col-md-3">
 					<br>
-					<input type="number" class="form-control vendor-jumlah" value="${jumlah}" id="jumlah-${vendor_jml}"  onkeyup="handleJumlahStokSisa(${vendor_jml})" onclick="handleJumlahStokSisa(${vendor_jml})" onload="handleJumlahStokSisa(${vendor_jml})">
+					<input type="number" class="form-control vendor-jumlah" value="${jumlah}" id="${pre}jumlah-${vendor_jml}"  onkeyup="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onclick="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onload="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})">
 				</div>
-				<div class="col-md-3" id="pilih-vendor-stok">
+				<div class="col-md-3" id="${pre}pilih-vendor-stok">
 					<br>
-					<input type="number" disabled class="form-control vendor-stok" value="${stok}" id="stok-${vendor_jml}">
+					<input type="number" disabled class="form-control vendor-stok" value="${stok}" id="${pre}stok-${vendor_jml}">
 				</div>
-				<div class="col-md-3" id="pilih-vendor-stok-sisa">
+				<div class="col-md-3" id="${pre}pilih-vendor-stok-sisa">
 					<br>
-					<input type="number" disabled class="form-control vendor-stok-sisa" id="stok-sisa-${vendor_jml}">
+					<input type="number" disabled class="form-control vendor-stok-sisa" id="${pre}stok-sisa-${vendor_jml}">
 				</div>
 				<!-- button -->
 				<div class="col-md-3">
 					<br>
 					<div style="display: flex; flex-direction: row-reverse; margin-top:3px;">
-						<button class="btn btn-danger btn-ef btn-ef-3 btn-ef-3c vendor-hapus" onclick="deleteVendor(${vendor_jml})"><i class="glyphicon glyphicon-minus"></i> Hapus Vendor</button>
+						<button class="btn btn-danger btn-ef btn-ef-3 btn-ef-3c vendor-hapus" onclick="deleteVendor(${vendor_jml}, ${preid ? "'" + preid + "'" : false})"><i class="glyphicon glyphicon-minus"></i> Hapus Vendor</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		`);
 }
-
 // vendor dirubah
-function handleChangeVendor(el) {
+function handleChangeVendor(el, preid = null) {
+	const pre = preid ? preid + "-" : "";
 	let vendor_check = [];
-	const vendor_all = $(".vendor-select");
-
+	const vendor_all = $(`.${pre}vendor-select`);
 	for (let i = 0; i < vendor_all.length; i++) {
 		if (vendor_all[i].value != "" && vendor_all[i] != el) {
 			vendor_check[i] = vendor_all[i].value;
 		}
 	}
+	// console.log(vendor_check);
+
 	// validasi
 	// cek apakah vendor sudah ada
 	if (vendor_check.includes(el.value)) {
@@ -957,11 +1089,12 @@ function handleChangeVendor(el) {
 		el.value = "";
 	} else {
 		el.setAttribute('disabled', '');
-		setStok(el.value, el.dataset.no, prod_id_now);
+		setStok(el.value, el.dataset.no, prod_id_now, preid);
 	}
 }
 
-function setStok(vendor, i, prod_id) {
+async function setStok(vendor, i, prod_id, preid = null) {
+	const pre = preid ? preid + "-" : "";
 	$.ajax({
 		method: 'post',
 		url: '<?= base_url() ?>penjualan/data/getStokByVendorPeDe',
@@ -970,25 +1103,36 @@ function setStok(vendor, i, prod_id) {
 			prod_id, prod_id
 		},
 		success(data) {
-			$("#stok-" + i).val(data);
-			handleJumlahStokSisa(i);
+
+			// stok di tambah kembali karena akn di rubah
+			index = data_sebelumnya.vendor_id.findIndex((v_id) => {
+				return v_id == vendor;
+			});
+
+			getFromVendors = data_sebelumnya.jumlah[index];
+			getFromVendors = getFromVendors ? getFromVendors : 0;
+
+			$(`#${pre}stok-` + i).val(Number(data) + Number(getFromVendors));
+			handleJumlahStokSisa(i, 'ubah');
 		},
 		error($xhr) {
 			console.log($xhr)
 		},
 		complete() {
-			$("#vendor-select-" + i).removeAttr('disabled');
+			$(`#${pre}vendor-select-` + i).removeAttr('disabled');
+			$(`#${pre}vendor-` + i).removeAttr('disabled');
 		}
 	})
 }
 
-function handleJumlahStokSisa(id) {
-	let stok = $(`#stok-${id}`).val();
+function handleJumlahStokSisa(id, preid = null) {
+	const pre = preid ? preid + "-" : "";
+	let stok = $(`#${pre}stok-${id}`).val();
 	stok = (Number(stok) != NaN) ? Number(stok) : 0;
 
-	let jml = $(`#jumlah-${id}`).val();
+	let jml = $(`#${pre}jumlah-${id}`).val();
 	jml = Number(jml ? jml : 0);
 
-	$(`#stok-sisa-${id}`).val(stok - jml);
+	$(`#${pre}stok-sisa-${id}`).val(stok - jml);
 }
 

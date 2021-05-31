@@ -597,6 +597,7 @@ class Data extends Render_Controller
 	// Penjualan gudang retur
 	public function penjualanRetur()
 	{
+		// split id
 		$id = $this->input->post('id');
 		$pisah = explode("|", $id);
 
@@ -629,7 +630,6 @@ class Data extends Render_Controller
 		// set dan update penjualan detail status dan tanggal retur
 		$upd['pede_tanggal_retur'] = $tanggal . " " . date('H:i:s');
 		$upd['pede_status_pengiriman'] 	= 'retur';
-
 		$this->db->reset_query();
 		$this->db->where('pede_id', $id);
 		$this->db->update('penjualan_detail', $upd);

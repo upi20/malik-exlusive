@@ -278,57 +278,14 @@
 
 
 <!-- modal kirim -->
-<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="labelmyModal5" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="modal-title custom-font" id="labelmyModal4">Kirim Penjualan</h3>
+				<h3 class="modal-title custom-font" id="labelmyModal5">Kirim Penjualan</h3>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div style="padding:0 15px;">
-						<h4 style=" margin-top:0">Informasi Penjualan</h4>
-						<table class="tabel">
-							<tr>
-								<td>Toko</td>
-								<td>:</td>
-								<td id="tbl-toko"></td>
-							</tr>
-							<tr>
-								<td>ID</td>
-								<td>:</td>
-								<td id="tbl-id"></td>
-							</tr>
-							<tr>
-								<td>No. Resi</td>
-								<td>:</td>
-								<td id="tbl-resi"></td>
-							</tr>
-							<tr>
-								<td>Berkas</td>
-								<td>:</td>
-								<td id="tbl-berkas"></td>
-							</tr>
-						</table>
-
-						<table class="tabel">
-							<tr>
-								<td>Konsumen</td>
-								<td>:</td>
-								<td id="tbl-konsumen"></td>
-							</tr>
-							<tr>
-								<td>Produk</td>
-								<td>:</td>
-								<td id="tbl-produk"></td>
-							</tr>
-							<tr>
-								<td>Qty</td>
-								<td>:</td>
-								<td id="tbl-qty"></td>
-							</tr>
-						</table>
-					</div>
+				<div class="row" id="vendor-informasi-penjualan">
 				</div>
 				<hr>
 				<div class="row">
@@ -395,6 +352,80 @@
 	</div>
 </div>
 
+<!-- modal ubah -->
+<div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title custom-font" id="labelmyModal4">Ubah Kirim Penjualan</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row" id="ubah-vendor-informasi-penjualan">
+				</div>
+				<hr>
+				<div class="row">
+					<div style="padding:0 15px;">
+						<h4 style=" margin-top:0">Data Penjualan Pengiriman</h4>
+					</div>
+					<div class="col-md-4">
+						<label for="status">Status</label>
+						<select id="ubah-status" name="status" class="form-control" disabled>
+							<option value="kirim">Kirim</option>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="tanggal">Tanggal</label>
+						<input type="date" value="" class="form-control" id="ubah-tanggal">
+					</div>
+					<div class="col-md-4">
+						<label for="packer">Packer</label>
+						<select id="ubah-packer" name="packer" class="form-control">
+							<option value="" selected>Pilih packer</option>
+						</select>
+					</div>
+				</div>
+
+
+				<div id="ubah-vendors">
+					<div class="row" id="ubah-vendor-1">
+						<br>
+						<div class="col-md-3" id="ubah-pilih-vendor">
+							<label for="vendor-select-1">Vendor</label>
+							<select id="ubah-vendor-select-1" name="vendor-select-1" class="form-control ubah-vendor-select" onchange="handleChangeVendor(this, 'ubah')" data-no="1">
+								<option value="" selected>Pilih Vendor</option>
+							</select>
+						</div>
+						<div class="col-md-9 p-0 m-0">
+							<div class="col-md-3">
+								<label for="jumlah-1">Jumlah</label>
+								<input type="number" class="form-control ubah-vendor-jumlah" id="ubah-jumlah-1" onkeyup="handleJumlahStokSisa(1,'ubah')" onclick="handleJumlahStokSisa(1,'ubah')" onload="handleJumlahStokSisa(1,'ubah')">
+							</div>
+							<div class="col-md-3" id="ubah-pilih-vendor-stok">
+								<label for="stok-1">Stok</label>
+								<input type="number" disabled class="form-control ubah-vendor-stok" id="ubah-stok-1">
+							</div>
+							<div class="col-md-3" id="ubah-pilih-vendor-stok-sisa">
+								<label for="stok-sisa-1">Stok Sisa</label>
+								<input type="number" disabled class="form-control ubah-vendor-stok-sisa" id="ubah-stok-sisa-1">
+							</div>
+
+							<div class="col-md-3">
+								<br>
+								<div style="display: flex; flex-direction: row-reverse; margin-top:4px;">
+									<button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" id="ubah-vendor-tambah"><i class="glyphicon glyphicon-plus"></i> Tambah Vendor</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="ubah-submitFormUbah" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c"><i class="fa fa-arrow-right"></i> Simpan</button>
+				<button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Batal</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	<?php
