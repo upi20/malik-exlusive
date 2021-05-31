@@ -138,6 +138,12 @@ class Data_model extends CI_Model
 		return $return;
 	}
 
+	public function getVendorByIdPede($id)
+	{
+		$result = $this->db->get_where("penjualan_detail_vendor", ["pede_id" => $id])->result_array();
+		return $result;
+	}
+
 	public function hangus($id)
 	{
 		$get = $this->db->where('pede_penj_id', $id)->get('penjualan_detail')->result_array();
@@ -152,5 +158,46 @@ class Data_model extends CI_Model
 		$this->db->where('penj_id', $id);
 		$this->db->update('penjualan', $upd2);
 		return true;
+	}
+
+	public function getStokByVendorPeDe($vendor_id, $prod_id)
+	{
+		return $this->db->select('jumlah')
+			->from('produk_stok')
+			->where(['id_produk' => $prod_id, 'id_supplier' => $vendor_id])
+			->get()
+			->row_array();
+	}
+
+	public function getPackerByPeDe($id)
+	{
+		return $this->db->select("b.penj_pack_id")
+			->from("penjualan_detail a")
+			->join("penjualan b", "a.pede_penj_id = b.penj_id")
+			->where(['a.pede_id' => $id])
+			->get()
+			->row_array();
+	}
+
+	public function getDataById($id)
+	{
+		$this->db->select(" a.*, b.* ,u.*, w.*, z.kate_id as kate_id_1, z.kate_nama as kate_nama_1, x.kate_id as kate_id_2, x.kate_nama as kate_nama_2, y.kate_id as kate_id_3, y.kate_nama as kate_nama_3, d.*, t.nama as toko, sp.supp_nama");
+
+		$this->db->from("penjualan_detail b");
+		$this->db->join("penjualan a", 'b.pede_penj_id = a.penj_id');
+		$this->db->join("packer w", 'w.pack_id = a.penj_pack_id', 'left');
+
+
+		$this->db->join('kategori z', 'z.kate_id = b.pede_kate_id', 'left');
+		$this->db->join('kategori x', 'x.kate_id = b.pede_kate_id_2', 'left');
+		$this->db->join('kategori y', 'y.kate_id = b.pede_kate_id_3', 'left');
+		$this->db->join('produk d', 'd.prod_id = b.pede_prod_id');
+		$this->db->join('toko t', 't.id = a.penj_toko_id');
+
+		$this->db->join("users u", "a.penj_user_id = u.user_id");
+		$this->db->join("supplier sp", "sp.supp_id = b.pede_supp_id", "left");
+		$this->db->where(['b.pede_id' => $id]);
+
+		return $this->db->get()->row_array();
 	}
 }

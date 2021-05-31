@@ -100,20 +100,27 @@ class Data extends Render_Controller
 
 	public function ubahStatusPengiriman()
 	{
+		function getSuplierStokJumlah($ci, $produk, $vendor)
+		{
+
+			return (int)$ci->db->get_where("produk_stok", ["id_produk" => $produk, "id_supplier" => $vendor])->row_array()['jumlah'];
+		}
+
+		$vendor 	= json_decode(stripslashes($this->input->post('vendor')));
 		$id 		= $this->input->post('id');
 		$pisah 		= explode("|", $id);
 		$id 		= $pisah[0];
 		$id_penjualan = $pisah[1];
 		$status 	= $this->input->post('status');
-		$vendor 	= $this->input->post('vendor');
 		$packer 	= $this->input->post('packer');
 		$tanggal_kirim 	= $this->input->post('tanggal_kirim');
-		$penjualan_detail = $this->db->get_where("penjualan_detail", ["pede_id" => $id])->row_array();
 
+
+		// query
+		$penjualan_detail = $this->db->get_where("penjualan_detail", ["pede_id" => $id])->row_array();
 		$prod_stok = (int)$this->db->get_where("produk", ["prod_id" => $penjualan_detail['pede_prod_id']])->row_array()['prod_stok'];
 
-		$prod_stok_stok = (int)$this->db->get_where("produk_stok", ["id_produk" => $penjualan_detail['pede_prod_id'], "id_supplier" => $vendor])->row_array()['jumlah'];
-
+		// edit supplayer stok
 		if ($status == 'kirim') {
 			$upd['pede_tanggal_kirim'] = $tanggal_kirim . " " . date('H:i:s');
 		} elseif ($status == 'retur') {
@@ -121,38 +128,72 @@ class Data extends Render_Controller
 		} elseif ($status == 'proses') {
 			// jika status dari return dan kirim diubah kembali menjadi proses maka stok akan dikembalikan
 			if (($penjualan_detail['pede_status_pengiriman'] != "") && ($penjualan_detail['pede_status_pengiriman'] == "kirim" || $penjualan_detail['pede_status_pengiriman'] == "retur")) {
-				// update produk stok
+				// // update produk stok
 				$stok = $prod_stok + (int) $penjualan_detail['pede_jumlah'];
 				$this->db->where('prod_id', $penjualan_detail['pede_prod_id']);
 				$this->db->update('produk', ['prod_stok' => $stok]);
 
 				// update produk_stok stok
-				$stok = $prod_stok_stok + (int) $penjualan_detail['pede_jumlah'];
-				$this->db->where(["id_produk" => $penjualan_detail['pede_prod_id'], "id_supplier" => $vendor]);
-				$this->db->update('produk_stok', ['jumlah' => $stok]);
+				foreach ($vendor->vendor as $i => $val) {
+					$id_supp = $val;
+					$jumlah = $vendor->jumlah[$i];
+					$stok_asal = getSuplierStokJumlah($this, $penjualan_detail['pede_prod_id'], $id_supp);
+
+					// update produk_stok sstok
+					$stok = $stok_asal + (int)$jumlah;
+					$this->db->where(["id_produk" => $penjualan_detail['pede_prod_id'], "id_supplier" => $id_supp]);
+					$this->db->update('produk_stok', ['jumlah' => $stok]);
+				}
 			}
 		}
 
 		if ($status == "kirim") {
 			// cek penjualan status sebelumnya bukan kirim makan stok akan dikurangi
 			if ($penjualan_detail['pede_status_pengiriman'] == "proses" || $penjualan_detail['pede_status_pengiriman'] == "") {
-				// update produk stok
+				foreach ($vendor->vendor as $i => $val) {
+					$id_supp = $val;
+					$jumlah = $vendor->jumlah[$i];
+					$stok_asal = getSuplierStokJumlah($this, $penjualan_detail['pede_prod_id'], $id_supp);
+
+					// update produk_stok sstok
+					$stok = $stok_asal - (int)$jumlah;
+					$this->db->where(["id_produk" => $penjualan_detail['pede_prod_id'], "id_supplier" => $id_supp]);
+					$this->db->update('produk_stok', ['jumlah' => $stok]);
+				}
+
+
+				// // update produk stok
 				if ($penjualan_detail['pede_status_pengiriman'] != "") {
 					$stok = $prod_stok - (int) $penjualan_detail['pede_jumlah'];
 					$this->db->where('prod_id', $penjualan_detail['pede_prod_id']);
 					$this->db->update('produk', ['prod_stok' => $stok]);
 				}
-				// update produk_stok sstok
-				$stok = $prod_stok_stok - (int) $penjualan_detail['pede_jumlah'];
-				$this->db->where(["id_produk" => $penjualan_detail['pede_prod_id'], "id_supplier" => $vendor]);
-				$this->db->update('produk_stok', ['jumlah' => $stok]);
 			}
+		}
+
+		// edit penjualan detail vendor
+		// hapus semua
+		$this->db->where('pede_id', $id);
+		$this->db->delete('penjualan_detail_vendor');
+		// tambah
+		foreach ($vendor->vendor as $i => $val) {
+			$id_supp = $val;
+			$jumlah = $vendor->jumlah[$i];
+
+			$this->db->insert('penjualan_detail_vendor', [
+				'pede_id' => $id,
+				'vendor_id' => $id_supp,
+				'jumlah' => $jumlah
+			]);
 		}
 
 
 		$upd['pede_status_pengiriman'] 	= $status;
-		$upd['pede_supp_id'] 			= $vendor;
+		// $upd['pede_supp_id'] 			= $vendor;
 		// $upd['pede_tanggal_kirim'] 		= date("Y-m-d H:i:s");
+		$this->db->reset_query();
+
+
 		$this->db->where('pede_id', $id);
 		$this->db->update('penjualan_detail', $upd);
 
@@ -162,7 +203,6 @@ class Data extends Render_Controller
 		$this->db->where('penj_id', $id_penjualan);
 		$this->db->update('penjualan', $upd2);
 
-		// var_dump($this->input->post());
 
 		$this->output_json(
 			[
@@ -467,6 +507,36 @@ class Data extends Render_Controller
 			'pede_supp_id' => $this->input->post('vendor')
 		]);
 		echo json_encode($exe);
+	}
+
+	public function getVendorByIdPeDe()
+	{
+		$id = $this->input->post('id');
+		$result = $this->penjualan->getVendorByIdPede($id);
+		$this->output_json($result);
+	}
+
+	public function getStokByVendorPeDe()
+	{
+		$vendor_id = $this->input->post("vendor_id");
+		$prod_id = $this->input->post("prod_id");
+
+		$result = $this->penjualan->getStokByVendorPeDe($vendor_id, $prod_id);
+		$this->output_json($result ? $result['jumlah'] : 0);
+	}
+
+	public function getPackerByPeDe()
+	{
+		$id = $this->input->post("id");
+		$result = $this->penjualan->getPackerByPeDe($id);
+		$this->output_json($result ? $result["penj_pack_id"] : "");
+	}
+
+	public function getDetailPede()
+	{
+		$id = $this->input->post("id");
+		$result = $this->penjualan->getDataById($id);
+		$this->output_json($result);
 	}
 
 	function __construct()

@@ -1,3 +1,20 @@
+<style>
+	.tabel {
+		display: inline;
+		position: relative;
+		float: left;
+		max-width: 450px;
+		min-width: 300px;
+	}
+
+	.tabel td {
+		padding: 3px;
+	}
+
+	.tabel tr td:first-child {
+		font-weight: bold;
+	}
+</style>
 <section id="content">
 
 	<div class="page page-tables-datatables">
@@ -23,6 +40,7 @@
 					<!-- tile body -->
 					<div class="tile-body">
 						<div class="row">
+							<div class="col-md-3"></div>
 							<div class="col-md-2" style="display: none;">
 								<select class="form-control" name="filter_status_pembayaran" id="filter_status_pembayaran">
 									<option value="">--Status Pembayaran--</option>
@@ -61,14 +79,14 @@
 									<?php endforeach; ?>
 								</select>
 							</div>
-							<div class="col-md-2">
+							<!-- <div class="col-md-2">
 								<select class="form-control" name="filter_supplier" id="filter_supplier">
 									<option value="">--Supplier--</option>
 									<?php foreach ($supplier as $q) : ?>
 										<option value="<?= $q['supp_id'] ?>"><?= $q['supp_nama'] ?></option>
 									<?php endforeach; ?>
 								</select>
-							</div>
+							</div> -->
 							<div class="col-md-2">
 								<div class='input-group datepicker' data-format="L">
 									<input type='text' placeholder="Pilih Tanggal Mulai" class="form-control" id="filter_tanggal_mulai" />
@@ -92,10 +110,9 @@
 									<option value="offline">offline</option>
 								</select>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-1">
 								<!-- <a href class="myIcon icon-hotpink icon-ef-9 icon-color"><i class="fa fa-umbrella"></i></a> -->
-								<button class="btn btn-ef btn-ef-1-success btn-ef-1 btn-ef-1d btn-md" id="filter-cari"><i class="fa fa-arrow-right"></i> Cari</button>
-
+								<button class="btn btn-ef btn-ef-1-success btn-ef-1 btn-ef-1d btn-md" id="filter-cari" style="width:100%"><i class="fa fa-arrow-right"></i> Cari</button>
 							</div>
 						</div>
 					</div>
@@ -109,7 +126,7 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font">Data <strong><?= $title ?> Transaksi :</strong> <b style="text-align: right;" id="total-harga"><?php echo $this->libs->rupiah($total_harga); ?></b></h1>
-						<button style="float: right; margin-right: 10px;" class="btn btn-success" id="scan-button"><i class="fa fa-qrcode"></i> Scan Barcode</button>
+						<!-- <button style="float: right; margin-right: 10px;" class="btn btn-success" id="scan-button"><i class="fa fa-qrcode"></i> Scan Barcode</button> -->
 					</div>
 					<!-- /tile header -->
 
@@ -127,7 +144,7 @@
 												<th>Tanggal</th>
 												<th>No. Resi</th>
 												<th>Berkas</th>
-												<th>Vendor</th>
+												<!-- <th>Vendor</th> -->
 												<th>Packer</th>
 												<th>Toko</th>
 												<th>Konsumen</th>
@@ -254,6 +271,136 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title custom-font" id="labelmyModal4">Form Ubah Status</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div style="padding:0 15px;">
+						<h4 style=" margin-top:0">Informasi Penjualan</h4>
+						<table class="tabel">
+							<tr>
+								<td>ID</td>
+								<td>:</td>
+								<td id="tbl-id"></td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td id="tbl-tanggal"></td>
+							</tr>
+							<tr>
+								<td>No. Resi</td>
+								<td>:</td>
+								<td id="tbl-resi"></td>
+							</tr>
+							<tr>
+								<td>Berkas</td>
+								<td>:</td>
+								<td id="tbl-berkas"></td>
+							</tr>
+							<tr>
+								<td>Packer</td>
+								<td>:</td>
+								<td id="tbl-packer"></td>
+							</tr>
+						</table>
+
+						<table class="tabel">
+							<tr>
+								<td>Toko</td>
+								<td>:</td>
+								<td id="tbl-toko"></td>
+							</tr>
+							<tr>
+								<td>Konsumen</td>
+								<td>:</td>
+								<td id="tbl-konsumen"></td>
+							</tr>
+							<tr>
+								<td>Produk</td>
+								<td>:</td>
+								<td id="tbl-produk"></td>
+							</tr>
+							<tr>
+								<td>Qty</td>
+								<td>:</td>
+								<td id="tbl-qty"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div style="padding:0 15px;">
+						<h4 style=" margin-top:0">Ubah Status</h4>
+					</div>
+					<div class="col-md-4">
+						<label for="status">Status</label>
+						<select id="status" name="status" class="form-control">
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="tanggal">Tanggal</label>
+						<input type="date" value="" class="form-control" id="tanggal">
+					</div>
+					<div class="col-md-4">
+						<label for="packer">Packer</label>
+						<select id="packer" name="packer" class="form-control">
+							<option value="" selected>Pilih packer</option>
+						</select>
+					</div>
+				</div>
+
+
+				<div id="vendors">
+					<div class="row" id="vendor-1">
+						<br>
+						<div class="col-md-3" id="pilih-vendor">
+							<label for="vendor-select-1">Vendor</label>
+							<select id="vendor-select-1" name="vendor-select-1" class="form-control vendor-select" onchange="handleChangeVendor(this)" data-no="1">
+								<option value="" selected>Pilih Vendor</option>
+							</select>
+						</div>
+						<div class="col-md-9 p-0 m-0">
+							<div class="col-md-3">
+								<label for="jumlah-1">Jumlah</label>
+								<input type="number" class="form-control vendor-jumlah" id="jumlah-1" onkeyup="handleJumlahStokSisa(1)" onclick="handleJumlahStokSisa(1)" onload="handleJumlahStokSisa(1)">
+							</div>
+							<div class="col-md-3" id="pilih-vendor-stok">
+								<label for="stok-1">Stok</label>
+								<input type="number" disabled class="form-control vendor-stok" id="stok-1">
+							</div>
+							<div class="col-md-3" id="pilih-vendor-stok-sisa">
+								<label for="stok-sisa-1">Stok Sisa</label>
+								<input type="number" disabled class="form-control vendor-stok-sisa" id="stok-sisa-1">
+							</div>
+
+							<div class="col-md-3">
+								<br>
+								<div style="display: flex; flex-direction: row-reverse; margin-top:4px;">
+									<button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" id="vendor-tambah"><i class="glyphicon glyphicon-plus"></i> Tambah Vendor</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="submitFormUbah" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c"><i class="fa fa-arrow-right"></i> Simpan</button>
+				<button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Batal</button>
+			</div>
+			<input type="hidden" id="idHapus" name="">
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 	<?php
 	$packer = $this->db->get('packer')->result_array();
