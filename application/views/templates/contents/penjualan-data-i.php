@@ -14,6 +14,10 @@
 	.tabel tr td:first-child {
 		font-weight: bold;
 	}
+
+	.tabel tr td {
+		vertical-align: top;
+	}
 </style>
 <section id="content">
 

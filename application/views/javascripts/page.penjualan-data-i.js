@@ -3,6 +3,7 @@ let prod_id_now = 0;
 let pede_id_now = 0;
 let pede_jumlah_now = 0;
 let penj_id_now = "";
+let string_json_retur = "";
 $(function () {
 	let total_harga = 0;
 	$('#dibayar').autoNumeric('init');
@@ -82,14 +83,14 @@ $(function () {
 
 					// button sesuai dengan status penjualan detail
 
-					if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "") {
+					if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "" || full.pede_status_pengiriman == "retur") {
 						return '<div class="pull-right">'
 							+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="glyphicon glyphicon-send"></i> Kirim</a>'
 							+ '</div>';
 					} else {
 						return '<div class="pull-right">'
-							+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
-							+ "  " + '<button class="btn btn-danger btn-xs btn-retur" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
+							+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" data-qty="' + full.pede_jumlah + '" data-toko="' + full.toko + '" data-resi="' + full.penj_no_resi + '" data-produk="' + full.prod_nama + '" data-konsumen="' + full.penj_nama + '" data-penj_id="' + full.penj_id + '" data-prod_id="' + full.prod_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
+							+ "  " + '<button class="btn btn-danger btn-xs btn-retur"  data-id="' + full.pede_id + '" data-qty="' + full.pede_jumlah + '" data-toko="' + full.toko + '" data-resi="' + full.penj_no_resi + '" data-produk="' + full.prod_nama + '" data-konsumen="' + full.penj_nama + '" data-penj_id="' + full.penj_id + '" data-prod_id="' + full.prod_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
 							+ '</div>';
 					}
 				}
@@ -203,15 +204,15 @@ $(function () {
 
 						// button sesuai dengan status penjualan detail
 
-						if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "") {
+						if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "" || full.pede_status_pengiriman == "retur") {
 							return '<div class="pull-right">'
 								+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="glyphicon glyphicon-send"></i> Kirim</a>'
 								+ '</div>';
 
 						} else {
 							return '<div class="pull-right">'
-								+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
-								+ "  " + '<button class="btn btn-danger btn-xs btn-retur" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
+								+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" data-qty="' + full.pede_jumlah + '" data-toko="' + full.toko + '" data-resi="' + full.penj_no_resi + '" data-produk="' + full.prod_nama + '" data-konsumen="' + full.penj_nama + '" data-penj_id="' + full.penj_id + '" data-prod_id="' + full.prod_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
+								+ "  " + '<button class="btn btn-danger btn-xs btn-retur"  data-id="' + full.pede_id + '" data-qty="' + full.pede_jumlah + '" data-toko="' + full.toko + '" data-resi="' + full.penj_no_resi + '" data-produk="' + full.prod_nama + '" data-konsumen="' + full.penj_nama + '" data-penj_id="' + full.penj_id + '" data-prod_id="' + full.prod_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
 								+ '</div>';
 						}
 					}
@@ -357,8 +358,8 @@ $(function () {
 		// set tanggal kirim
 		const tanggal_full = new Date();
 		const bln_nol = ((tanggal_full.getMonth() + 1) < 10) ? `0${(tanggal_full.getMonth() + 1)}` : (tanggal_full.getMonth() + 1);
-		const tanggal_full_string = `${tanggal_full.getFullYear()}-${bln_nol}-${tanggal_full.getDate()}`;
-		console.log(tanggal_full_string);
+		const tgl_nol = (tanggal_full.getDate() < 10) ? `0${tanggal_full.getDate()}` : tanggal_full.getDate();
+		const tanggal_full_string = `${tanggal_full.getFullYear()}-${bln_nol}-${tgl_nol}`;
 		$("#tanggal").val(tanggal_full_string);
 
 		// Set Kendaraaan
@@ -391,6 +392,7 @@ $(function () {
 		$("#vendor-select-1").val("");
 		$("#jumlah-1").val("");
 		$("#stok-1").val("");
+		$("#stok-sisa-1").val("");
 		// clear vendor
 		clearVendor();
 
@@ -713,14 +715,133 @@ $(function () {
 
 	})
 
-	// handle button retur ====================================================================================================
-	$('#advanced-usage tbody').on('click', '.btn-retur', function (e) {
-		const id_pede = this.dataset.id;
+	// handle button retur =============================================================================================
+	$('#advanced-usage tbody').on('click', '.btn-retur', function () {
+		const ele = this;
+		const pede_id = ele.dataset.id;
+
+
+		// disable button dan view loading
+		$("#clickHapus").attr('disabled', '');
+		$("#contentHapus").text('Loading, please wait.');
+
+		// informasi vendor retur
+		let pede_id_arr = [];
+		let vendor_id = [];
+		let jumlah = [];
+
+		// get informasi vendor seluruh
+		$.ajax({
+			method: 'post',
+			url: '<?= base_url() ?>penjualan/data/getVendorByIdPeDe',
+			data: {
+				id: pede_id
+			},
+			success(data) {
+				data.forEach(el => {
+					pede_id_arr.push(el.pede_id);
+					vendor_id.push(el.vendor_id);
+					jumlah.push(el.jumlah);
+				});
+				string_json_retur = JSON.stringify({
+					pede_id: pede_id_arr,
+					jumlah: jumlah,
+					vendor: vendor_id
+				});
+
+				const tanggal_full = new Date();
+				const bln_nol = ((tanggal_full.getMonth() + 1) < 10) ? `0${(tanggal_full.getMonth() + 1)}` : (tanggal_full.getMonth() + 1);
+				const tgl_nol = (tanggal_full.getDate() < 10) ? `0${tanggal_full.getDate()}` : tanggal_full.getDate();
+				const tanggal_full_string = `${tanggal_full.getFullYear()}-${bln_nol}-${tgl_nol}`;
+
+				// tampilkan infomasi
+				$("#contentHapus").html(`
+				<div class="row">
+					<div class="col-xs-12">
+						<h4 style="margin-top:0">Informasi Retur Penjualan</h4>
+						<table class="tabel" style="min-width:100px;">
+							<tr>
+								<td>Toko</td>
+								<td>:</td>
+								<td>${ele.dataset.toko}</td>
+							</tr>
+							<tr>
+								<td>ID</td>
+								<td>:</td>
+								<td>${ele.dataset.penj_id}</td>
+							</tr>
+							<tr>
+								<td>No. Resi</td>
+								<td>:</td>
+								<td>${ele.dataset.resi}</td>
+							</tr>
+							<tr>
+								<td>Konsumen</td>
+								<td>:</td>
+								<td>${ele.dataset.konsumen}</td>
+							</tr>
+							<tr>
+								<td>Produk</td>
+								<td>:</td>
+								<td>${ele.dataset.produk}</td>
+							</tr>
+							<tr>
+								<td>Qty</td>
+								<td>:</td>
+								<td>${ele.dataset.qty}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-xs-12">
+						<hr>
+						<label for="tanggal-retur">Set Tanggal Retur</label>
+						<input type="date" value="${tanggal_full_string}" class="form-control" id="tanggal-retur">
+						<input type="text" value="${ele.dataset.penj_id}" style="display:none;" id="penj_id-retur">
+						<input type="text" value="${ele.dataset.prod_id}" style="display:none;" id="prod_id-retur">
+					</div>
+				</div>
+				`);
+			},
+			error($xhr) {
+				console.log($xhr);
+				$.message('Kesalahan jaringan', 'Retur', 'error');
+				$('#myModal3').modal('toggle');
+			},
+			complete() {
+				$("#clickHapus").removeAttr('disabled');
+			}
+		})
+
+		// set invormasi retur
+		$("#idHapus").val(pede_id);
+		$("#labelHapus").text('Form Retur Penjualan');
+		$('#myModal3').modal('toggle');
 	});
 
-	// handle button ubah =====================================================================================================
-	$('#advanced-usage tbody').on('click', '.btn-ubah', function (e) {
-		const id_pede = this.dataset.id;
+	$("#clickHapus").click(function () {
+		const ele = this;
+		const id = $("#idHapus").val() + "|" + $("#penj_id-retur").val() + "|" + $("#prod_id-retur").val();
+		const tanggal = $("#tanggal-retur").val();
+		ele.setAttribute('disabled', '');
+		ajax = window.apiClient.pengadaanTambah.penjualanRetur(id, string_json_retur, tanggal)
+			.done(function (data) {
+				console.log(data);
+				$("#advanced-usage").dataTable().fnDestroy();
+				$.message('Berhasil diubah.', 'Transaksi Status', 'success');
+				dynamic();
+			})
+			.fail(function ($xhr) {
+				$.message('Gagal diubah.', 'Transaksi Status', 'error');
+			}).
+			always(function () {
+				ele.removeAttribute('disabled');
+				$('#myModal3').modal('toggle');
+			});
+	});
+
+	// handle button ubah ==============================================================================================
+	$('#advanced-usage tbody').on('click', '.btn-ubah', function () {
+		const pede_id = this.dataset.id;
 	});
 
 })

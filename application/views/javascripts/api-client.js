@@ -992,6 +992,7 @@ $(function () {
 					}
 				})
 			},
+
 			penjualanKirim: (id, vendor, packer, tanggal_kirim) => {
 				return $.ajax({
 					method: 'post',
@@ -1004,7 +1005,17 @@ $(function () {
 					}
 				})
 			},
-
+			penjualanRetur: (id, vendor, tanggal) => {
+				return $.ajax({
+					method: 'post',
+					url: '<?= base_url() ?>penjualan/data/penjualanRetur',
+					data: {
+						id: id,
+						vendor: vendor,
+						tanggal: tanggal
+					}
+				})
+			},
 
 			insert: (code, parent1, parent2, parent3, prod_id, jumlah, harga, total, berat, supp_id, kode_produk_alias, no_tracking, link_referensi) => {
 				return $.ajax({
