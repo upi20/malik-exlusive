@@ -175,6 +175,8 @@ class Data extends Render_Controller
 		// hapus semua
 		$this->db->where('pede_id', $id);
 		$this->db->delete('penjualan_detail_vendor');
+
+
 		// tambah
 		foreach ($vendor->vendor as $i => $val) {
 			$id_supp = $val;
@@ -537,6 +539,61 @@ class Data extends Render_Controller
 		$id = $this->input->post("id");
 		$result = $this->penjualan->getDataById($id);
 		$this->output_json($result);
+	}
+
+	// Penjualan gudang kirim
+	public function penjualanKirim()
+	{
+		// menyiapkan data variable
+		$id = $this->input->post('id');
+		$pisah = explode("|", $id);
+
+		$vendor = json_decode(stripslashes($this->input->post('vendor')));
+		$id = $pisah[0];
+		$id_prod = $pisah[2];
+		$id_penjualan = $pisah[1];
+		$packer = $this->input->post('packer');
+		$tanggal_kirim = $this->input->post('tanggal_kirim');
+		$qty = 0;
+
+		// input tabel penjualan detail vendor dan tabel produk stok
+		foreach ($vendor->vendor as $i => $val) {
+			$id_supp = $val;
+			$jumlah = $vendor->jumlah[$i];
+
+			// input penjualan detail vendor
+			$this->db->insert('penjualan_detail_vendor', [
+				'pede_id' => $id,
+				'vendor_id' => $id_supp,
+				'jumlah' => $jumlah
+			]);
+
+			// get stok awal
+			$stok_asal = $this->penjualan->getSuplierStokJumlah($id_prod, $id_supp);
+
+			// update produk_stok sstok
+			$stok = $stok_asal - (int)$jumlah;
+			$this->db->where(["id_produk" => $id_prod, "id_supplier" => $id_supp]);
+			$this->db->update('produk_stok', ['jumlah' => $stok]);
+		}
+
+		// ubah status penjualan detail ke kirim
+		$upd['pede_tanggal_kirim'] = $tanggal_kirim . " " . date('H:i:s');
+		$upd['pede_status_pengiriman'] 	= 'kirim';
+
+		$this->db->reset_query();
+		$this->db->where('pede_id', $id);
+		$this->db->update('penjualan_detail', $upd);
+
+		// ubah status penjualan terngantung pede
+		// get penjualan detail where id penjualan
+		$status_penjualan = $this->penjualan->getAllDetailPenjualanForPenjualan($id_penjualan);
+		$upd2['penj_status_pengiriman'] = $status_penjualan;
+		$upd2['penj_pack_id'] = $packer;
+		$upd2['penj_tanggal_pengiriman'] = date("Y-m-d H:i:s");
+		$this->db->where('penj_id', $id_penjualan);
+		$this->db->update('penjualan', $upd2);
+		$this->output_json($vendor);
 	}
 
 	function __construct()

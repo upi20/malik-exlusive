@@ -50,7 +50,7 @@ $(function () {
 				}
 			},
 			{
-				data: "penj_status_pengiriman", render: function (data, type, full, meta) {
+				data: "pede_status_pengiriman", render: function (data, type, full, meta) {
 					if (data == '') {
 						return 'proses';
 					} else {
@@ -61,23 +61,36 @@ $(function () {
 			{ "data": "pede_tanggal_kirim" },
 			{
 				data: "penj_id", render: (data, type, full, meta) => {
-					if (full.penj_status != 'Hangus') {
-						if (full.penj_sisa == 0) {
-							return '<div class="pull-right">'
-								+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '" data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
-								// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
-								// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
-								+ '</div>'
-						} else {
-							return '<div class="pull-right">'
-								+ '<a class="btn btn-success  btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '"  data-id="' + full.prod_id + '" data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
-								// +'<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#splash" data-options="splash-2 splash-ef-14" onclick=bayar("'+full.penj_id+'|'+full.penj_total_harga+'|'+full.penj_dibayar+'|'+full.penj_sisa+'")><i class="fa fa-edit"></i> <span>Bayar Sisa</span></button>'
-								// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
-								// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
-								+ '</div>'
-						}
+					// if (full.penj_status != 'Hangus') {
+					// 	if (full.penj_sisa == 0) {
+					// 		return '<div class="pull-right">'
+					// 			+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '" data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
+					// 			// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
+					// 			// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
+					// 			+ '</div>'
+					// 	} else {
+					// 		return '<div class="pull-right">'
+					// 			+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '" data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
+					// 			// +'<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#splash" data-options="splash-2 splash-ef-14" onclick=bayar("'+full.penj_id+'|'+full.penj_total_harga+'|'+full.penj_dibayar+'|'+full.penj_sisa+'")><i class="fa fa-edit"></i> <span>Bayar Sisa</span></button>'
+					// 			// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
+					// 			// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
+					// 			+ '</div>'
+					// 	}
+					// } else {
+					// 	return '';
+					// }
+
+					// button sesuai dengan status penjualan detail
+
+					if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "") {
+						return '<div class="pull-right">'
+							+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="glyphicon glyphicon-send"></i> Kirim</a>'
+							+ '</div>';
 					} else {
-						return '';
+						return '<div class="pull-right">'
+							+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
+							+ "  " + '<button class="btn btn-danger btn-xs btn-retur" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
+							+ '</div>';
 					}
 				}
 			},
@@ -157,7 +170,7 @@ $(function () {
 					}
 				},
 				{
-					data: "penj_status_pengiriman", render: function (data, type, full, meta) {
+					data: "pede_status_pengiriman", render: function (data, type, full, meta) {
 						if (data == '') {
 							return 'proses';
 						} else {
@@ -168,23 +181,38 @@ $(function () {
 				{ "data": "pede_tanggal_kirim" },
 				{
 					data: "penj_id", render: (data, type, full, meta) => {
-						if (full.penj_status != 'Hangus') {
-							if (full.penj_sisa == 0) {
-								return '<div class="pull-right">'
-									+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
-									// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
-									// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
-									+ '</div>'
-							} else {
-								return '<div class="pull-right">'
-									+ '<a class="btn btn-success  btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
-									// +'<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#splash" data-options="splash-2 splash-ef-14" onclick=bayar("'+full.penj_id+'|'+full.penj_total_harga+'|'+full.penj_dibayar+'|'+full.penj_sisa+'")><i class="fa fa-edit"></i> <span>Bayar Sisa</span></button>'
-									// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
-									// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
-									+ '</div>'
-							}
+						// if (full.penj_status != 'Hangus') {
+						// 	if (full.penj_sisa == 0) {
+						// 		return '<div class="pull-right">'
+						// 			+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
+						// 			// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
+						// 			// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
+						// 			+ '</div>'
+						// 	} else {
+						// 		return '<div class="pull-right">'
+						// 			+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="fa fa-edit"></i> Ubah</a>'
+						// 			// +'<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#splash" data-options="splash-2 splash-ef-14" onclick=bayar("'+full.penj_id+'|'+full.penj_total_harga+'|'+full.penj_dibayar+'|'+full.penj_sisa+'")><i class="fa fa-edit"></i> <span>Bayar Sisa</span></button>'
+						// 			// +'<a target="_BLANK" href="<?=base_url()?>penjualan/data/cetak/'+data+'"><button class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Print</button></a>'
+						// 			// +'<a style="width: 100%;" href="<?=base_url()?>penjualan/data/suratJalan/'+data+'"><button style="width: 100%;" class="btn btn-xs btn-default value="'+data+' " ><i class="fa fa-print"></i>Surat Jalan</button></a>'
+						// 			+ '</div>'
+						// 	}
+						// } else {
+						// 	return '';
+						// }
+
+
+						// button sesuai dengan status penjualan detail
+
+						if (full.pede_status_pengiriman == "proses" || full.pede_status_pengiriman == "") {
+							return '<div class="pull-right">'
+								+ '<a class="btn btn-success btn-xs edit-detail" href="#' + full.pede_id + '/' + full.penj_id + '/' + full.pede_status_pengiriman + '/' + full.pede_supp_id + '/' + full.pede_tanggal_kirim + '/' + full.pede_jumlah + '" data-id="' + full.prod_id + '"  data-toggle="modal" data-target="#myModal5"><i class="glyphicon glyphicon-send"></i> Kirim</a>'
+								+ '</div>';
+
 						} else {
-							return '';
+							return '<div class="pull-right">'
+								+ '<button class="btn btn-warning btn-xs btn-ubah" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-edit"></i> Ubah</button>'
+								+ "  " + '<button class="btn btn-danger btn-xs btn-retur" data-id="' + full.pede_id + '" ><i class="glyphicon glyphicon-log-in"></i> Retur</button>'
+								+ '</div>';
 						}
 					}
 				},
@@ -286,9 +314,9 @@ $(function () {
 
 	})
 
+	// handle button kirim =============================================================================================
 	$('#advanced-usage tbody').on('click', '.edit-detail', function (ev) {
-
-
+		// get data from href attribute
 		var ids = $(this).attr("href");
 		ids = window.apiClient.format.splitString(ids, '#');
 		var res = ids.split("/");
@@ -307,7 +335,8 @@ $(function () {
 		tanggal_kirim = tanggal_kirim[0]
 		$("#idHapus").val(pede_id + "|" + penj_id);
 		$("#labelHapus").text('Form Ubah Status');
-		// informasi penjualan
+
+		// get data dan set informasi penjualan
 		$.ajax({
 			method: 'post',
 			url: '<?= base_url() ?>penjualan/data/getDetailPede',
@@ -316,7 +345,6 @@ $(function () {
 			}
 		}).done(function (data) {
 			$("#tbl-id").text(data.penj_id);
-			$("#tbl-tanggal").text(data.penj_tanggal);
 			$("#tbl-resi").text(data.penj_no_resi);
 			$("#tbl-berkas").html('<a style="text-align:right;" href="<?php echo base_url();?>gambar/' + data.penj_berkas + '">' + data.penj_berkas + '</p>');
 			$("#tbl-toko").text(data.toko);
@@ -326,15 +354,14 @@ $(function () {
 		})
 
 
-		// tanggal kirim
-		$("#tanggal").val(tanggal_kirim)
+		// set tanggal kirim
+		const tanggal_full = new Date();
+		const bln_nol = ((tanggal_full.getMonth() + 1) < 10) ? `0${(tanggal_full.getMonth() + 1)}` : (tanggal_full.getMonth() + 1);
+		const tanggal_full_string = `${tanggal_full.getFullYear()}-${bln_nol}-${tanggal_full.getDate()}`;
+		console.log(tanggal_full_string);
+		$("#tanggal").val(tanggal_full_string);
 
-		// reset vendor
-		$("#vendor-select-1").val("");
-		$("#jumlah-1").val("");
-		$("#stok-1").val("");
-
-
+		// Set Kendaraaan
 		$("#kendaraan").empty();
 		$("#kendaraan").append('<option value="" selected>Pilih Kendaraan</option>');
 		$.ajax({
@@ -347,32 +374,23 @@ $(function () {
 			})
 		})
 
-		$("#status").empty();
-		$("#status").append('<option value="">Pilih Status</option>');
-		if (status == '' || status == 'proses') {
-			$("#status").append("<option value='proses' selected>Proses</option>");
-			$("#status").append("<option value='kirim'>Kirim</option>");
-			$("#status").append("<option value='retur'>Retur</option>");
-		} else if (status == 'kirim') {
-			$("#status").append("<option value='proses'>Proses</option>");
-			$("#status").append("<option value='kirim' selected>Kirim</option>");
-			$("#status").append("<option value='retur'>Retur</option>");
-		} else if (status == 'retur') {
-			$("#status").append("<option value='proses'>Proses</option>");
-			$("#status").append("<option value='kirim'>Kirim</option>");
-			$("#status").append("<option value='retur' selected>Retur</option>");
-		} else {
+		// Set Status
+		const status_penjualan = $("#status");
+		status_penjualan.empty();
+		status_penjualan.attr('disabled', '');
+		status_penjualan.append("<option value='kirim'>Kirim</option>");
 
-		}
-
+		// Set Packer
 		$('#packer').html('<option value="" selected>Pilih Packer</option>')
 		for (let i = 0; i < packer.length; i++) {
 			$('#packer').append('<option value="' + packer[i].split('|')[0] + '">' + packer[i].split('|')[1] + '</option>')
 		}
 
-		$("#vendor").empty();
-		$("#vendor").append('<option value="" selected>Pilih Vendor</option>');
-
+		// reset vendor
+		// Set Vendor
+		$("#vendor-select-1").val("");
+		$("#jumlah-1").val("");
+		$("#stok-1").val("");
 		// clear vendor
 		clearVendor();
 
@@ -425,10 +443,12 @@ $(function () {
 	// vendor 1 add
 	let vendor_html = '';
 
+	// set vendor
 	vendor.forEach(e => {
 		e = e.split("|");
 		vendor_html += `<option value="${e[0]}" >${e[1]}</option>`;
 	});
+
 	$("#vendor-select-1").append(vendor_html);
 
 	// tambah vendor
@@ -436,15 +456,17 @@ $(function () {
 		addVendor();
 	});
 
-	// eksekusi
+	// handle submit kirim =============================================================================================
 	$('#submitFormUbah').click(function () {
 		let jmlVendor = 0;
 		let jmlTotalQty = 0;
 		let cekSelisihStok = true;
 		let cekJumlahMinimal = true;
 		let cekJmlTotalQty = true;
+		let cekTanggalKirim = true;
+		let cekPacker = true;
 
-		const id = pede_id_now + "|" + penj_id_now;
+		const id = pede_id_now + "|" + penj_id_now + "|" + prod_id_now;
 		const status = $("#status").val();
 		const packer = $('#packer').val();
 		const tanggal_kirim = $("#tanggal").val();
@@ -457,6 +479,7 @@ $(function () {
 		let jumlah_to_json = [];
 		let stok_to_json = [];
 
+		// validasi vendor
 		vendor_all.each((i, e) => {
 			if (e.value != "") {
 				if (Number(jumlah_all[i].value) > Number(stok_all[i].value)) {
@@ -472,21 +495,45 @@ $(function () {
 				jmlVendor++;
 			}
 		});
-		if (Number(jmlTotalQty) != Number(pede_jumlah_now)) cekJmlTotalQty = false;
 
+		// validasi cek vendor
 		if (!cekSelisihStok) $.message('Terdapat stok vendor yang kurang', 'Ubah Vendor', 'error');
 		if (!cekJumlahMinimal) $.message('Jumlah penjualan harus lebih dari nol.', 'Jumlah Penjualan', 'error');
 		if (!jmlVendor) $.message('Belum ada vendor yang di inputkan', 'Jumlah Vendor', 'error');
+
+		// validasi qty
+		if (Number(jmlTotalQty) != Number(pede_jumlah_now)) cekJmlTotalQty = false;
 		if (Number(jmlTotalQty) > Number(pede_jumlah_now)) $.message(`Jumlah penjualan lebih dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
 		if (Number(jmlTotalQty) < Number(pede_jumlah_now)) $.message(`Jumlah penjualan kurang dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
 
-		if (cekSelisihStok && cekJumlahMinimal && jmlVendor && cekJmlTotalQty) {
+		// validasi tanggal
+		const el_tanggal = $("#tanggal");
+		if (el_tanggal.val() == "") {
+			$.message('Tanggal Harus di isi', 'Informasi Pengiriman', 'error');
+			cekTanggalKirim = false;
+			el_tanggal.focus();
+		}
+
+		// validasi packer
+		const el_packer = $("#packer");
+		if (el_packer.val() == "") {
+			$.message('Packer Harus di isi', 'Informasi Pengiriman', 'error');
+			cekPacker = fasle;
+			el_packer.focus();
+		}
+
+		// validasi result
+		const valid = cekSelisihStok && cekJumlahMinimal && jmlVendor && cekJmlTotalQty && cekTanggalKirim && cekPacker;
+
+		// eksekusi
+		// eksekusi sebelumnya window.apiClient.pengadaanTambah.ubahDetailPengirimanPenjualan(id, status, vendor, packer, tanggal_kirim)
+		if (valid) {
 			let ele = this;
 			ele.setAttribute('disabled', '');
 			const vendor = JSON.stringify({ vendor: vendor_to_json, jumlah: jumlah_to_json, stok: stok_to_json });
-			ajax = window.apiClient.pengadaanTambah.ubahDetailPengirimanPenjualan(id, status, vendor, packer, tanggal_kirim)
+			ajax = window.apiClient.pengadaanTambah.penjualanKirim(id, vendor, packer, tanggal_kirim)
 				.done(function (data) {
-					// console.log(data);
+					console.log(data);
 					$("#advanced-usage").dataTable().fnDestroy();
 					$.message('Berhasil diubah.', 'Transaksi Status', 'success');
 					dynamic();
@@ -501,6 +548,8 @@ $(function () {
 		}
 	});
 
+
+	// scan ============================================================================================================
 	// Scan on click
 	$('#scan-button').click(() => {
 		// alert(status)
@@ -630,12 +679,12 @@ $(function () {
 	$('#clickMyModel4').on('click', ev => {
 		ev.preventDefault()
 
-		let id = $('#idHapus').val()
-		let no_resi = $('#barcode').val()
-		let vendor = $("#vendor2").val()
-		let packer = $('#packer2').val()
-		let tanggal = $('#tanggal_kirim2').val()
-		let status = $("#status2").val()
+		const id = $('#idHapus').val()
+		const no_resi = $('#barcode').val()
+		const vendor = $("#vendor2").val()
+		const packer = $('#packer2').val()
+		const tanggal = $('#tanggal_kirim2').val()
+		const status = $("#status2").val()
 
 		$.ajax({
 			method: 'post',
@@ -663,6 +712,17 @@ $(function () {
 		})
 
 	})
+
+	// handle button retur ====================================================================================================
+	$('#advanced-usage tbody').on('click', '.btn-retur', function (e) {
+		const id_pede = this.dataset.id;
+	});
+
+	// handle button ubah =====================================================================================================
+	$('#advanced-usage tbody').on('click', '.btn-ubah', function (e) {
+		const id_pede = this.dataset.id;
+	});
+
 })
 
 function bayar(id) {
@@ -704,6 +764,8 @@ function clearVendor() {
 }
 
 
+
+// vendor ==============================================================================================================
 function addVendor(data = false) {
 	let vendor_id = "";
 	let jumlah = "";

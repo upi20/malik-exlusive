@@ -992,6 +992,20 @@ $(function () {
 					}
 				})
 			},
+			penjualanKirim: (id, vendor, packer, tanggal_kirim) => {
+				return $.ajax({
+					method: 'post',
+					url: '<?= base_url() ?>penjualan/data/penjualanKirim',
+					data: {
+						id: id,
+						vendor: vendor,
+						packer: packer,
+						tanggal_kirim: tanggal_kirim
+					}
+				})
+			},
+
+
 			insert: (code, parent1, parent2, parent3, prod_id, jumlah, harga, total, berat, supp_id, kode_produk_alias, no_tracking, link_referensi) => {
 				return $.ajax({
 					method: 'post',

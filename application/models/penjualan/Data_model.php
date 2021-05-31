@@ -179,6 +179,29 @@ class Data_model extends CI_Model
 			->row_array();
 	}
 
+	function getSuplierStokJumlah($produk, $vendor)
+	{
+		return (int)$this->db->get_where("produk_stok", ["id_produk" => $produk, "id_supplier" => $vendor])->row_array()['jumlah'];
+	}
+
+	function getAllDetailPenjualanForPenjualan($id_penj)
+	{
+		$rows = $this->db->select('pede_status_pengiriman')->from('penjualan_detail')->where(['pede_penj_id' => $id_penj])->get()->result_array();
+		// return  $rows;
+		if ($rows) {
+			$result = true;
+			foreach ($rows as $row) {
+				if ($row != "kirim") {
+					$result = false;
+				}
+			}
+
+			return $result ? 'kirim' : 'proses';
+		} else {
+			return 'proses';
+		}
+	}
+
 	public function getDataById($id)
 	{
 		$this->db->select(" a.*, b.* ,u.*, w.*, z.kate_id as kate_id_1, z.kate_nama as kate_nama_1, x.kate_id as kate_id_2, x.kate_nama as kate_nama_2, y.kate_id as kate_id_3, y.kate_nama as kate_nama_3, d.*, t.nama as toko, sp.supp_nama");

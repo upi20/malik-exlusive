@@ -273,11 +273,12 @@
 </div>
 
 
+<!-- modal kirim -->
 <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="modal-title custom-font" id="labelmyModal4">Form Ubah Status</h3>
+				<h3 class="modal-title custom-font" id="labelmyModal4">Kirim Penjualan</h3>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -285,14 +286,14 @@
 						<h4 style=" margin-top:0">Informasi Penjualan</h4>
 						<table class="tabel">
 							<tr>
+								<td>Toko</td>
+								<td>:</td>
+								<td id="tbl-toko"></td>
+							</tr>
+							<tr>
 								<td>ID</td>
 								<td>:</td>
 								<td id="tbl-id"></td>
-							</tr>
-							<tr>
-								<td>Tanggal</td>
-								<td>:</td>
-								<td id="tbl-tanggal"></td>
 							</tr>
 							<tr>
 								<td>No. Resi</td>
@@ -304,19 +305,9 @@
 								<td>:</td>
 								<td id="tbl-berkas"></td>
 							</tr>
-							<tr>
-								<td>Packer</td>
-								<td>:</td>
-								<td id="tbl-packer"></td>
-							</tr>
 						</table>
 
 						<table class="tabel">
-							<tr>
-								<td>Toko</td>
-								<td>:</td>
-								<td id="tbl-toko"></td>
-							</tr>
 							<tr>
 								<td>Konsumen</td>
 								<td>:</td>
@@ -338,7 +329,7 @@
 				<hr>
 				<div class="row">
 					<div style="padding:0 15px;">
-						<h4 style=" margin-top:0">Ubah Status</h4>
+						<h4 style=" margin-top:0">Data Penjualan Pengiriman</h4>
 					</div>
 					<div class="col-md-4">
 						<label for="status">Status</label>
