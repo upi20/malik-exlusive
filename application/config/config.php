@@ -27,7 +27,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $config['composer_autoload'] = "vendor/autoload.php";
 // $config['base_url'] = '/2021/malik-exlusive/';
 // $config['base_url'] = 'http://malik-exlusive.tri3s.com/';
-$config['base_url'] = 'http://10.20.30.166/aplikasi/pro/malik-exlusive/';
+// $config['base_url'] = 'http://localhost/aplikasi/pro/malik-exlusive/';
+$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
+$config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];
+$config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 
 /*
 |--------------------------------------------------------------------------
