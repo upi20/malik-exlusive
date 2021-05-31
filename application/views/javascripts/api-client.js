@@ -991,12 +991,21 @@ $(function () {
 						tanggal_kirim: tanggal_kirim
 					}
 				})
-			},
-
-			penjualanKirim: (id, vendor, packer, tanggal_kirim) => {
+			}, penjualanKirim: (id, vendor, packer, tanggal_kirim) => {
 				return $.ajax({
 					method: 'post',
 					url: '<?= base_url() ?>penjualan/data/penjualanKirim',
+					data: {
+						id: id,
+						vendor: vendor,
+						packer: packer,
+						tanggal_kirim: tanggal_kirim
+					}
+				})
+			}, penjualanUbah: (id, vendor, packer, tanggal_kirim) => {
+				return $.ajax({
+					method: 'post',
+					url: '<?= base_url() ?>penjualan/data/penjualanUbah',
 					data: {
 						id: id,
 						vendor: vendor,

@@ -643,6 +643,74 @@ class Data extends Render_Controller
 		$this->output_json($vendor);
 	}
 
+	// penjualan ubah
+	public function penjualanUbah()
+	{
+		// split id
+		$id = $this->input->post('id');
+		$pisah = explode("|", $id);
+
+		// pede_id
+		$id = $pisah[0];
+		$penj_id = $pisah[1];
+		$prod_id = $pisah[2];
+		$tanggal = $this->input->post('tanggal');
+		$vendor = json_decode(stripslashes($this->input->post('vendor')));
+
+		// kembalikan produk_stok
+		foreach ($vendor->vendor_recent->vendor_id as $i => $val) {
+			$id_supp = $val;
+			$jumlah = $vendor->vendor_recent->jumlah[$i];
+
+			// get stok awal
+			$stok_asal = $this->penjualan->getSuplierStokJumlah($prod_id, $id_supp);
+
+			// update produk_stok sstok
+			$stok = $stok_asal + (int)$jumlah;
+			$this->db->where(["id_produk" => $prod_id, "id_supplier" => $id_supp]);
+			$this->db->update('produk_stok', ['jumlah' => $stok]);
+		}
+
+		// hapus pembelian detail vendor by id pede
+		$this->db->reset_query();
+		$this->db->where('pede_id', $id);
+		$this->db->delete('penjualan_detail_vendor');
+
+		// input tabel penjualan detail vendor dan tabel produk stok
+		foreach ($vendor->vendor as $i => $val) {
+			$id_supp = $val;
+			$jumlah = $vendor->jumlah[$i];
+
+			// input penjualan detail vendor
+			$this->db->insert('penjualan_detail_vendor', [
+				'pede_id' => $id,
+				'vendor_id' => $id_supp,
+				'jumlah' => $jumlah
+			]);
+
+			// get stok awal
+			$stok_asal = $this->penjualan->getSuplierStokJumlah($prod_id, $id_supp);
+
+			// update produk_stok sstok
+			$stok = $stok_asal - (int)$jumlah;
+			$this->db->where(["id_produk" => $prod_id, "id_supplier" => $id_supp]);
+			$this->db->update('produk_stok', ['jumlah' => $stok]);
+		}
+
+		// set dan update penjualan detail status dan tanggal kirim
+		$upd['pede_tanggal_retur'] = $tanggal . " " . date('H:i:s');
+		$this->db->reset_query();
+		$this->db->where('pede_id', $id);
+		$this->db->update('penjualan_detail', $upd);
+
+		// update status tabel penjualan by id penj
+		$this->db->reset_query();
+		$status_penjualan = $this->penjualan->getAllDetailPenjualanForPenjualan($penj_id);
+		$upd2['penj_status_pengiriman'] = $status_penjualan;
+		$this->db->where('penj_id', $penj_id);
+		$this->db->update('penjualan', $upd2);
+		$this->output_json($vendor);
+	}
 	function __construct()
 	{
 		parent::__construct();

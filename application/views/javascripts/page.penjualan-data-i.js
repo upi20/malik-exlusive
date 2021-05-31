@@ -6,6 +6,7 @@ let pede_jumlah_now = 0;
 let penj_id_now = "";
 let string_json_retur = "";
 let data_sebelumnya = [];
+let isUbah = false;
 $(function () {
 	let total_harga = 0;
 	$('#dibayar').autoNumeric('init');
@@ -319,6 +320,7 @@ $(function () {
 
 	// handle button kirim =============================================================================================
 	$('#advanced-usage tbody').on('click', '.edit-detail', function (ev) {
+		isUbah = false;
 		// get data from href attribute
 		var ids = $(this).attr("href");
 		ids = window.apiClient.format.splitString(ids, '#');
@@ -453,92 +455,94 @@ $(function () {
 
 	// handle submit kirim =============================================================================================
 	$('#submitFormUbah').click(function () {
-		let jmlVendor = 0;
-		let jmlTotalQty = 0;
-		let cekSelisihStok = true;
-		let cekJumlahMinimal = true;
-		let cekJmlTotalQty = true;
-		let cekTanggalKirim = true;
-		let cekPacker = true;
+		{
+			const ele = this;
+			let jmlVendor = 0;
+			let jmlTotalQty = 0;
+			let cekSelisihStok = true;
+			let cekJumlahMinimal = true;
+			let cekJmlTotalQty = true;
+			let cekTanggalKirim = true;
+			let cekPacker = true;
 
-		const id = pede_id_now + "|" + penj_id_now + "|" + prod_id_now;
-		const status = $("#status").val();
-		const packer = $('#packer').val();
-		const tanggal_kirim = $("#tanggal").val();
+			const id = pede_id_now + "|" + penj_id_now + "|" + prod_id_now;
+			const status = $("#status").val();
+			const packer = $('#packer').val();
+			const tanggal_kirim = $("#tanggal").val();
 
-		const vendor_all = $(".vendor-select");
-		const jumlah_all = $(".vendor-jumlah");
-		const stok_all = $(".vendor-stok");
+			const vendor_all = $(".vendor-select");
+			const jumlah_all = $(".vendor-jumlah");
+			const stok_all = $(".vendor-stok");
 
-		let vendor_to_json = [];
-		let jumlah_to_json = [];
-		let stok_to_json = [];
+			let vendor_to_json = [];
+			let jumlah_to_json = [];
+			let stok_to_json = [];
 
-		// validasi vendor
-		vendor_all.each((i, e) => {
-			if (e.value != "") {
-				if (Number(jumlah_all[i].value) > Number(stok_all[i].value)) {
-					cekSelisihStok = false;
+			// validasi vendor
+			vendor_all.each((i, e) => {
+				if (e.value != "") {
+					if (Number(jumlah_all[i].value) > Number(stok_all[i].value)) {
+						cekSelisihStok = false;
+					}
+					if (Number(jumlah_all[i].value) <= 0) {
+						cekJumlahMinimal = false;
+					}
+					jmlTotalQty += Number(jumlah_all[i].value);
+					vendor_to_json.push(e.value);
+					jumlah_to_json.push(jumlah_all[i].value);
+					stok_to_json.push(stok_all[i].value);
+					jmlVendor++;
 				}
-				if (Number(jumlah_all[i].value) <= 0) {
-					cekJumlahMinimal = false;
-				}
-				jmlTotalQty += Number(jumlah_all[i].value);
-				vendor_to_json.push(e.value);
-				jumlah_to_json.push(jumlah_all[i].value);
-				stok_to_json.push(stok_all[i].value);
-				jmlVendor++;
+			});
+
+			// validasi cek vendor
+			if (!cekSelisihStok) $.message('Terdapat stok vendor yang kurang', 'Ubah Vendor', 'error');
+			if (!cekJumlahMinimal) $.message('Jumlah penjualan harus lebih dari nol.', 'Jumlah Penjualan', 'error');
+			if (!jmlVendor) $.message('Belum ada vendor yang di inputkan', 'Jumlah Vendor', 'error');
+
+			// validasi qty
+			if (Number(jmlTotalQty) != Number(pede_jumlah_now)) cekJmlTotalQty = false;
+			if (Number(jmlTotalQty) > Number(pede_jumlah_now)) $.message(`Jumlah penjualan lebih dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
+			if (Number(jmlTotalQty) < Number(pede_jumlah_now)) $.message(`Jumlah penjualan kurang dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
+
+			// validasi tanggal
+			const el_tanggal = $("#tanggal");
+			if (el_tanggal.val() == "") {
+				$.message('Tanggal Harus di isi', 'Informasi Pengiriman', 'error');
+				cekTanggalKirim = false;
+				el_tanggal.focus();
 			}
-		});
 
-		// validasi cek vendor
-		if (!cekSelisihStok) $.message('Terdapat stok vendor yang kurang', 'Ubah Vendor', 'error');
-		if (!cekJumlahMinimal) $.message('Jumlah penjualan harus lebih dari nol.', 'Jumlah Penjualan', 'error');
-		if (!jmlVendor) $.message('Belum ada vendor yang di inputkan', 'Jumlah Vendor', 'error');
+			// validasi packer
+			const el_packer = $("#packer");
+			if (el_packer.val() == "") {
+				$.message('Packer Harus di isi', 'Informasi Pengiriman', 'error');
+				cekPacker = fasle;
+				el_packer.focus();
+			}
 
-		// validasi qty
-		if (Number(jmlTotalQty) != Number(pede_jumlah_now)) cekJmlTotalQty = false;
-		if (Number(jmlTotalQty) > Number(pede_jumlah_now)) $.message(`Jumlah penjualan lebih dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
-		if (Number(jmlTotalQty) < Number(pede_jumlah_now)) $.message(`Jumlah penjualan kurang dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
+			// validasi result
+			const valid = cekSelisihStok && cekJumlahMinimal && jmlVendor && cekJmlTotalQty && cekTanggalKirim && cekPacker;
 
-		// validasi tanggal
-		const el_tanggal = $("#tanggal");
-		if (el_tanggal.val() == "") {
-			$.message('Tanggal Harus di isi', 'Informasi Pengiriman', 'error');
-			cekTanggalKirim = false;
-			el_tanggal.focus();
-		}
-
-		// validasi packer
-		const el_packer = $("#packer");
-		if (el_packer.val() == "") {
-			$.message('Packer Harus di isi', 'Informasi Pengiriman', 'error');
-			cekPacker = fasle;
-			el_packer.focus();
-		}
-
-		// validasi result
-		const valid = cekSelisihStok && cekJumlahMinimal && jmlVendor && cekJmlTotalQty && cekTanggalKirim && cekPacker;
-
-		// eksekusi
-		// eksekusi sebelumnya window.apiClient.pengadaanTambah.ubahDetailPengirimanPenjualan(id, status, vendor, packer, tanggal_kirim)
-		if (valid) {
-			let ele = this;
-			ele.setAttribute('disabled', '');
-			const vendor = JSON.stringify({ vendor: vendor_to_json, jumlah: jumlah_to_json, stok: stok_to_json });
-			ajax = window.apiClient.pengadaanTambah.penjualanKirim(id, vendor, packer, tanggal_kirim)
-				.done(function (data) {
-					$("#advanced-usage").dataTable().fnDestroy();
-					$.message('Berhasil diubah.', 'Transaksi Status', 'success');
-					dynamic();
-				})
-				.fail(function ($xhr) {
-					$.message('Gagal diubah.', 'Transaksi Status', 'error');
-				}).
-				always(function () {
-					ele.removeAttribute('disabled');
-					$('#myModal5').modal('toggle');
-				});
+			// eksekusi
+			// eksekusi sebelumnya window.apiClient.pengadaanTambah.ubahDetailPengirimanPenjualan(id, status, vendor, packer, tanggal_kirim)
+			if (valid) {
+				ele.setAttribute('disabled', '');
+				const vendor = JSON.stringify({ vendor: vendor_to_json, jumlah: jumlah_to_json, stok: stok_to_json });
+				ajax = window.apiClient.pengadaanTambah.penjualanKirim(id, vendor, packer, tanggal_kirim)
+					.done(function (data) {
+						$("#advanced-usage").dataTable().fnDestroy();
+						$.message('Berhasil diubah.', 'Transaksi Status', 'success');
+						dynamic();
+					})
+					.fail(function ($xhr) {
+						$.message('Gagal diubah.', 'Transaksi Status', 'error');
+					}).
+					always(function () {
+						ele.removeAttribute('disabled');
+						$('#myModal5').modal('toggle');
+					});
+			}
 		}
 	});
 
@@ -832,10 +836,15 @@ $(function () {
 
 	// handle button ubah ==============================================================================================
 	$('#advanced-usage tbody').on('click', '.btn-ubah', function () {
+		isUbah = true;
 		const pede_id = this.dataset.id;
 		const prod_id = this.dataset.prod_id;
+		const penj_id = this.dataset.penj_id;
+		const qty = this.dataset.qty;
 		prod_id_now = prod_id;
 		pede_id_now = pede_id;
+		penj_id_now = penj_id;
+		pede_jumlah_now = qty;
 		// set informasi penjualan
 		setInformasiPenjualan(pede_id, '#ubah-vendor-informasi-penjualan', 'ubah');
 
@@ -907,6 +916,88 @@ $(function () {
 
 	});
 
+	// handle submit ubah =============================================================================================
+	$('#ubah-submitFormUbah').click(function () {
+		const ele = this;
+		let jmlVendor = 0;
+		let jmlTotalQty = 0;
+		let cekSelisihStok = true;
+		let cekJumlahMinimal = true;
+		let cekJmlTotalQty = true;
+		let cekTanggalKirim = true;
+		let cekPacker = true;
+
+		const id = pede_id_now + "|" + penj_id_now + "|" + prod_id_now;
+		const status = $(`#ubah-status`).val();
+		const packer = $(`#ubah-packer`);
+		const tanggal = $(`#ubah-tanggal`);
+
+		const vendor_all = $(`.ubah-vendor-select`);
+		const jumlah_all = $(`.ubah-vendor-jumlah`);
+		const stok_all = $(`.ubah-vendor-stok`);
+
+		let vendor_to_json = [];
+		let jumlah_to_json = [];
+		let stok_to_json = [];
+
+		// validasi vendor
+		vendor_all.each((i, e) => {
+			if (e.value != "") {
+				if (Number(jumlah_all[i].value) > Number(stok_all[i].value)) {
+					cekSelisihStok = false;
+				}
+				if (Number(jumlah_all[i].value) <= 0) {
+					cekJumlahMinimal = false;
+				}
+				jmlTotalQty += Number(jumlah_all[i].value);
+				vendor_to_json.push(e.value);
+				jumlah_to_json.push(jumlah_all[i].value);
+				stok_to_json.push(stok_all[i].value);
+				jmlVendor++;
+			}
+		});
+
+		// validasi cek vendor
+		if (!cekSelisihStok) $.message('Terdapat stok vendor yang kurang', 'Ubah Vendor', 'error');
+		if (!cekJumlahMinimal) $.message('Jumlah penjualan harus lebih dari nol.', 'Jumlah Penjualan', 'error');
+		if (!jmlVendor) $.message('Belum ada vendor yang di inputkan', 'Jumlah Vendor', 'error');
+
+		// validasi qty
+		if (Number(jmlTotalQty) != Number(pede_jumlah_now)) cekJmlTotalQty = false;
+		if (Number(jmlTotalQty) > Number(pede_jumlah_now)) $.message(`Jumlah penjualan lebih dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
+		if (Number(jmlTotalQty) < Number(pede_jumlah_now)) $.message(`Jumlah penjualan kurang dari qty ${pede_jumlah_now}.`, 'Jumlah Penjualan', 'error');
+
+		// validasi packer
+		if (packer.val() == "") {
+			$.message('Packer Harus di isi', 'Informasi Pengiriman', 'error');
+			cekPacker = false;
+			packer.focus();
+		}
+
+		// validasi result
+		const valid = cekSelisihStok && cekJumlahMinimal && jmlVendor && cekJmlTotalQty && cekPacker;
+		if (valid) {
+			// eksekusi
+			ele.setAttribute('disabled', '');
+			const vendor = JSON.stringify({ vendor: vendor_to_json, jumlah: jumlah_to_json, stok: stok_to_json, vendor_recent: data_sebelumnya });
+			ajax = window.apiClient.pengadaanTambah.penjualanUbah(id, vendor, packer.val(), tanggal.val())
+				// ajax = window.apiClient.pengadaanTambah.penjualanKirim(1, 1, 1, 1)
+				.done(function (data) {
+					// $("#advanced-usage").dataTable().fnDestroy();
+					// $.message('Berhasil diubah.', 'Transaksi Status', 'success');
+					// dynamic();
+					console.log(data);
+				})
+				.fail(function ($xhr) {
+					$.message('Gagal diubah.', 'Transaksi Status', 'error');
+				}).
+				always(function () {
+					ele.removeAttribute('disabled');
+					// $('#myModal5').modal('toggle');
+				});
+		}
+
+	});
 })
 
 function bayar(id) {
@@ -1042,22 +1133,22 @@ function addVendor(data = false, preid = false) {
 		<div class="row ${pre}vendor-row" id="${pre}vendor-${vendor_jml}">
 			<div class="col-md-3" id="${pre}pilih-vendor">
 				<br>
-				<select id="${pre}vendor-select-${vendor_jml}" name="vendor-select-${vendor_jml}" class="form-control vendor-select" onchange="handleChangeVendor(this, ${preid ? "'" + preid + "'" : false})" data-no="${vendor_jml}">
+				<select id="${pre}vendor-select-${vendor_jml}" name="vendor-select-${vendor_jml}" class="form-control ${pre}vendor-select" onchange="handleChangeVendor(this, ${preid ? "'" + preid + "'" : false})" data-no="${vendor_jml}">
 					${vendor_html}
 				</select>
 			</div>
 			<div class="col-md-9 p-0 m-0">
 				<div class="col-md-3">
 					<br>
-					<input type="number" class="form-control vendor-jumlah" value="${jumlah}" id="${pre}jumlah-${vendor_jml}"  onkeyup="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onclick="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onload="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})">
+					<input type="number" class="form-control ${pre}vendor-jumlah" value="${jumlah}" id="${pre}jumlah-${vendor_jml}"  onkeyup="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onclick="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})" onload="handleJumlahStokSisa(${vendor_jml}, ${preid ? "'" + preid + "'" : false})">
 				</div>
 				<div class="col-md-3" id="${pre}pilih-vendor-stok">
 					<br>
-					<input type="number" disabled class="form-control vendor-stok" value="${stok}" id="${pre}stok-${vendor_jml}">
+					<input type="number" disabled class="form-control ${pre}vendor-stok" value="${stok}" id="${pre}stok-${vendor_jml}">
 				</div>
 				<div class="col-md-3" id="${pre}pilih-vendor-stok-sisa">
 					<br>
-					<input type="number" disabled class="form-control vendor-stok-sisa" id="${pre}stok-sisa-${vendor_jml}">
+					<input type="number" disabled class="form-control ${pre}vendor-stok-sisa" id="${pre}stok-sisa-${vendor_jml}">
 				</div>
 				<!-- button -->
 				<div class="col-md-3">
@@ -1069,6 +1160,7 @@ function addVendor(data = false, preid = false) {
 			</div>
 		</div>
 		`);
+
 }
 // vendor dirubah
 function handleChangeVendor(el, preid = null) {
@@ -1103,17 +1195,18 @@ async function setStok(vendor, i, prod_id, preid = null) {
 			prod_id, prod_id
 		},
 		success(data) {
+			let getFromVendors = 0;
+			if (isUbah) {
+				// stok di tambah kembali karena akn di rubah
+				index = data_sebelumnya.vendor_id.findIndex((v_id) => {
+					return v_id == vendor;
+				});
 
-			// stok di tambah kembali karena akn di rubah
-			index = data_sebelumnya.vendor_id.findIndex((v_id) => {
-				return v_id == vendor;
-			});
-
-			getFromVendors = data_sebelumnya.jumlah[index];
-			getFromVendors = getFromVendors ? getFromVendors : 0;
-
+				getFromVendors = data_sebelumnya.jumlah[index];
+				getFromVendors = getFromVendors ? getFromVendors : 0;
+			}
 			$(`#${pre}stok-` + i).val(Number(data) + Number(getFromVendors));
-			handleJumlahStokSisa(i, 'ubah');
+			handleJumlahStokSisa(i, preid);
 		},
 		error($xhr) {
 			console.log($xhr)
@@ -1132,7 +1225,5 @@ function handleJumlahStokSisa(id, preid = null) {
 
 	let jml = $(`#${pre}jumlah-${id}`).val();
 	jml = Number(jml ? jml : 0);
-
 	$(`#${pre}stok-sisa-${id}`).val(stok - jml);
 }
-
