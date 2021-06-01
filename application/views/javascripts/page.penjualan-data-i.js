@@ -983,17 +983,16 @@ $(function () {
 			ajax = window.apiClient.pengadaanTambah.penjualanUbah(id, vendor, packer.val(), tanggal.val())
 				// ajax = window.apiClient.pengadaanTambah.penjualanKirim(1, 1, 1, 1)
 				.done(function (data) {
-					// $("#advanced-usage").dataTable().fnDestroy();
-					// $.message('Berhasil diubah.', 'Transaksi Status', 'success');
-					// dynamic();
-					console.log(data);
+					$("#advanced-usage").dataTable().fnDestroy();
+					$.message('Berhasil diubah.', 'Transaksi Status', 'success');
+					dynamic();
 				})
 				.fail(function ($xhr) {
 					$.message('Gagal diubah.', 'Transaksi Status', 'error');
 				}).
 				always(function () {
 					ele.removeAttribute('disabled');
-					// $('#myModal5').modal('toggle');
+					$('#myModal6').modal('toggle');
 				});
 		}
 

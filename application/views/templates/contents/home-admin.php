@@ -42,12 +42,12 @@
 							<div class="row"></div>
 						</div>
 						<div class="col-md-3">
-							<div class='input-group' data-format="">
+							<div class='input-group datepicker' data-format="">
 								<input type='date' placeholder="Pilih Tanggal Mulai" class="form-control" id="filter_tanggal_mulai" name="filter_tanggal_mulai" value="<?= $tanggal_mulai ?>" />
 							</div>
 						</div>
 						<div class="col-md-3">
-							<div class='input-group ' data-format="L">
+							<div class='input-group datepicker' data-format="L">
 								<input type='date' placeholder="Pilih Tanggal Akhir" class="form-control" id="filter_tanggal_akhir" name="filter_tanggal_akhir" value="<?= $tanggal_akhir ?>" />
 							</div>
 						</div>

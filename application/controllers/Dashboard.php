@@ -49,10 +49,14 @@ class Dashboard extends Render_Controller
 			$this->data['total_hutang'] = $this->model->total_hutang();
 
 
-			$dari = $this->input->get("filter_tanggal_mulai") ? $_GET['filter_tanggal_mulai'] : date('Y-m-d');
-			$sampai = $this->input->get("filter_tanggal_akhir") ? $_GET['filter_tanggal_akhir'] : date('Y-m-d');
-			$this->data['tanggal_mulai'] = $dari;
-			$this->data['tanggal_akhir'] = $sampai;
+			$date = explode("/", $this->input->get("filter_tanggal_mulai"));
+			$date = (isset($date[2]) && isset($date[0]) && isset($date[1])) ? "$date[2]-$date[0]-$date[1]" : date('Y-m-d');
+			$dari = $date;
+			$date = explode("/", $this->input->get("filter_tanggal_akhir"));
+			$date = (isset($date[2]) && isset($date[0]) && isset($date[1])) ? "$date[2]-$date[0]-$date[1]" : date('Y-m-d');
+			$sampai = $date;
+			$this->data['tanggal_mulai'] = $this->input->get("filter_tanggal_mulai") ? $this->input->get("filter_tanggal_mulai") : date('m/d/Y');
+			$this->data['tanggal_akhir'] = $this->input->get("filter_tanggal_akhir") ? $this->input->get("filter_tanggal_akhir") : date('m/d/Y');
 			$this->data['table'] = $this->model->getDataPenjualan($dari, $sampai);
 			$this->data['admin'] = $this->model->getAdmin();
 			$this->data['suplier'] = $this->model->getSuplier();
@@ -78,18 +82,19 @@ class Dashboard extends Render_Controller
 			$this->data['total_piutang'] = $this->model->total_piutang();
 			$this->data['total_hutang'] = $this->model->total_hutang();
 
-
-			$dari = $this->input->get("filter_tanggal_mulai") ? $_GET['filter_tanggal_mulai'] : date('Y-m-d');
-			$sampai = $this->input->get("filter_tanggal_akhir") ? $_GET['filter_tanggal_akhir'] : date('Y-m-d');
-			$this->data['tanggal_mulai'] = $dari;
-			$this->data['tanggal_akhir'] = $sampai;
+			$date = explode("/", $this->input->get("filter_tanggal_mulai"));
+			$date = (isset($date[2]) && isset($date[0]) && isset($date[1])) ? "$date[2]-$date[0]-$date[1]" : date('Y-m-d');
+			$dari = $date;
+			$date = explode("/", $this->input->get("filter_tanggal_akhir"));
+			$date = (isset($date[2]) && isset($date[0]) && isset($date[1])) ? "$date[2]-$date[0]-$date[1]" : date('Y-m-d');
+			$sampai = $date;
+			$this->data['tanggal_mulai'] = $this->input->get("filter_tanggal_mulai") ? $this->input->get("filter_tanggal_mulai") : date('m/d/Y');
+			$this->data['tanggal_akhir'] = $this->input->get("filter_tanggal_akhir") ? $this->input->get("filter_tanggal_akhir") : date('m/d/Y');
 			$this->data['table'] = $this->model->getDataPenjualan($dari, $sampai);
 			$this->data['admin'] = $this->model->getAdmin();
 			$this->data['suplier'] = $this->model->getSuplier();
 			$this->content = 'home';
 		}
-
-
 		$this->render();
 	}
 
