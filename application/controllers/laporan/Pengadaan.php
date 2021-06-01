@@ -86,6 +86,18 @@ class Pengadaan extends Render_Controller
 		$data['pengadaan'] = $get_data;
 		$this->load->view('templates/contents/cetak-laporan-pengadaan', $data);
 	}
+	public function cetakExcel()
+	{
+		// $this->load->library('pdf');
+		$filter_status_pembayaran = $this->session->userdata('filter_status_pembayaran');
+		$filter_status_pengiriman = $this->session->userdata('filter_status_pengiriman');
+		$filter_tanggal_mulai = $this->session->userdata('filter_tanggal_mulai');
+		$filter_tanggal_akhir = $this->session->userdata('filter_tanggal_akhir');
+		$filter_sumber_penjualan = $this->session->userdata('filter_sumber_penjualan');
+		$get_data = $this->getAllData();
+		$data['pengadaan'] = $get_data;
+		$this->load->view('templates/contents/cetak-laporan-pengadaan-excel', $data);
+	}
 
 	public function getAllData()
 	{

@@ -49,7 +49,9 @@
 
 					<!-- tile body -->
 					<div class="tile-body">
-						<br>
+						<div class="pull-right">
+							<a href="<?= base_url() ?>laporan/stok_supplier/export_excel" style="float: right;" class="btn btn-success mb-10" id="btn-cetak-excel"> <span>Cetak Excel</span></a>
+						</div>
 						<table class="table table-custom" id="advanced-usage">
 							<thead>
 								<tr>

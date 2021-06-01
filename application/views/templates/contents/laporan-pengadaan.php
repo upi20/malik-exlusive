@@ -123,6 +123,7 @@
 							</div>
 							<div class="col-md-6">
 								<a href="<?= base_url() ?>laporan/pengadaan/cetakPdf"><button style="float: right;" target="_BLANK" class="btn btn-primary mb-10"><span>Cetak PDF</span></button></a>
+								<a href="<?= base_url() ?>laporan/pengadaan/cetakExcel"><button style="float: right; margin: 0 10px" target="_BLANK" class="btn btn-success mb-10"><span>Cetak Excel </span></button></a>
 							</div>
 						</div>
 						<br>

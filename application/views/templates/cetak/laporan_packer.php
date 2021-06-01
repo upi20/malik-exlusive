@@ -89,7 +89,8 @@ header("Expires: 0");
 					<td><?= $d['pack_alamat'] ?></td>
 					<td><?= $d['pack_status'] ?></td>
 				</tr>
-		<?php endforeach;
+		<?php $nomor++;
+			endforeach;
 		endif; ?>
 	</tbody>
 
