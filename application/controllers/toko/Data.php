@@ -1,15 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . 'libraries/Render_Controller.php';
 
-class Data extends Render_Controller {
+class Data extends Render_Controller
+{
 
-	public function index() {
+	public function index()
+	{
 
 		// Page config:
 		$this->title = 'Toko - Data';
-		$this->content = 'toko-data'; 
+		$this->content = 'toko-data';
 		$this->plugins = ['datatables'];
 		$this->navigation = ['Toko'];
 		// Commit render:
@@ -23,19 +25,20 @@ class Data extends Render_Controller {
 		$length = $this->input->post('length');
 		$cari 	= $this->input->post('search');
 
-		$data 	= $this->toko->getAlldata($length, $start, $cari['value'])->result_array();
-		$count 	= $this->toko->getAlldata(null,null, $cari['value'])->num_rows();
+		$data 	= $this->toko->getAlldata($length, $start, (isset($cari['value']) ? $cari['value'] : ""))->result_array();
+		$count 	= $this->toko->getAlldata(null, null, (isset($cari['value']) ? $cari['value'] : ""))->num_rows();
 		array($cari);
-		echo json_encode(array('recordsTotal'=>$count, 'recordsFiltered'=> $count, 'draw'=>$draw, 'search'=>$cari['value'], 'data'=>$data));
+		echo json_encode(array('recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => (isset($cari['value']) ? $cari['value'] : ""), 'data' => $data));
 	}
 
-	public function insert() {
+	public function insert()
+	{
 
 		// Input values
 		$data = $this->input->post();
 		$r = $this->toko->insert($data);
 
-		if($r !== FALSE) {
+		if ($r !== FALSE) {
 
 			$this->output_json(
 				[
@@ -45,14 +48,15 @@ class Data extends Render_Controller {
 		}
 	}
 
-	public function update() {
+	public function update()
+	{
 
 		// Input values
 		$data = $this->input->post();
 
 		$r = $this->toko->update($data);
 
-		if($r !== FALSE) {
+		if ($r !== FALSE) {
 			$this->output_json(
 				[
 					'id' => $r,
@@ -61,13 +65,14 @@ class Data extends Render_Controller {
 		}
 	}
 
-	public function delete() {
+	public function delete()
+	{
 
 		$id = $this->input->post('id');
 
 		$r = $this->toko->delete($id);
 
-		if($r !== FALSE) {
+		if ($r !== FALSE) {
 			$this->output_json(
 				[
 					'id' => $id
@@ -77,12 +82,14 @@ class Data extends Render_Controller {
 	}
 
 
-	private function output_json($data) {
+	private function output_json($data)
+	{
 		$this->output->set_content_type('application/json');
 		$this->output->set_output(json_encode($data));
 	}
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->default_template = 'templates/dashboard';
 		$this->load->library('plugin');
