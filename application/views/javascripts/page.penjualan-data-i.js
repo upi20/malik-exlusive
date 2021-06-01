@@ -372,6 +372,7 @@ $(function () {
 		status_penjualan.append("<option value='kirim'>Kirim</option>");
 
 		// Set Packer
+		$('#packer').empty()
 		$('#packer').append('<option value="" selected>Pilih Packer</option>')
 		for (let i = 0; i < packer.length; i++) {
 			$('#packer').append('<option value="' + packer[i].split('|')[0] + '">' + packer[i].split('|')[1] + '</option>')
