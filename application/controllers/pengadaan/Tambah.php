@@ -12,7 +12,7 @@ class Tambah extends Render_Controller
 		$this->title = 'Pembelian';
 		$this->content = 'pengadaan-tambah';
 		$this->plugins = ['datatables', 'formatrupiah'];
-		$this->navigation = ['Pengadaan'];
+		$this->navigation = ['Pembelian'];
 		// Commit render:
 		$this->render();
 	}

@@ -22,7 +22,18 @@
 <section id="content">
 
 	<div class="page page-tables-datatables">
-
+		<div class="pageheader">
+			<div class="page-bar">
+				<ul class="page-breadcrumb">
+					<li>
+						<a href="<?= base_url() ?>"><i class="fa fa-home"></i> Dashboard</a>
+					</li>
+					<li>
+						<a href="#">Penjualan</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<!-- row -->
 		<div class="row">
 			<!-- col -->
@@ -130,7 +141,16 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font">Data <strong><?= $title ?> Transaksi :</strong> <b style="text-align: right;" id="total-harga"><?php echo $this->libs->rupiah($total_harga); ?></b></h1>
-						<!-- <button style="float: right; margin-right: 10px;" class="btn btn-success" id="scan-button"><i class="fa fa-qrcode"></i> Scan Barcode</button> -->
+						<ul class="controls">
+							<li class="dropdown">
+
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+								</a>
+
+							</li>
+						</ul>
 					</div>
 					<!-- /tile header -->
 

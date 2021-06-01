@@ -17,7 +17,7 @@
 									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
 									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
-								
+
 							</li>
 						</ul>
 					</div>
@@ -29,90 +29,90 @@
 							<div class="col-md-2">
 								<select class="form-control" name="filter_kategori_utama" id="filter_kategori_utama">
 									<option value="">--Pilih Kategori Utama--</option>
-									<?php 
-										foreach($filter_kategori_utama as $q){
-											if(isset($val_kategori_utama)){
-												if($val_kategori_utama == $q['kate_id']){
-													echo '<option selected value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}else{
-													echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}
-											}else{
-												echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
+									<?php
+									foreach ($filter_kategori_utama as $q) {
+										if (isset($val_kategori_utama)) {
+											if ($val_kategori_utama == $q['kate_id']) {
+												echo '<option selected value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
+											} else {
+												echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 											}
+										} else {
+											echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 										}
+									}
 									?>
 								</select>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" name="filter_kategori" id="filter_kategori">
 									<option value="">--Pilih Kategori--</option>
-									<?php 
-										foreach($filter_kategori as $q){
-											if(isset($val_kategori)){
-												if($val_kategori == $q['kate_id']){
-													echo '<option selected value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}else{
-													echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}
-											}else{
-												echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
+									<?php
+									foreach ($filter_kategori as $q) {
+										if (isset($val_kategori)) {
+											if ($val_kategori == $q['kate_id']) {
+												echo '<option selected value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
+											} else {
+												echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 											}
+										} else {
+											echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 										}
+									}
 									?>
 								</select>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" name="filter_sub_kategori" id="filter_sub_kategori">
 									<option value="">--Pilih Sub Kategori--</option>
-									<?php 
-										foreach($filter_sub_kategori as $q){
-											if(isset($val_sub_kategori)){
-												if($val_sub_kategori == $q['kate_id']){
-													echo '<option selected value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}else{
-													echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
-												}
-											}else{
-												echo '<option value="'.$q['kate_id'].'"> '.$q['kate_nama'].' </option>';
+									<?php
+									foreach ($filter_sub_kategori as $q) {
+										if (isset($val_sub_kategori)) {
+											if ($val_sub_kategori == $q['kate_id']) {
+												echo '<option selected value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
+											} else {
+												echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 											}
+										} else {
+											echo '<option value="' . $q['kate_id'] . '"> ' . $q['kate_nama'] . ' </option>';
 										}
+									}
 									?>
 								</select>
 							</div>
 							<!-- <div class="col-md-2">
 								<select class="form-control" name="filter_rak" id="filter_rak">
 									<option value="">--Pilih Rak--</option>
-									<?php 
-										foreach($filter_rak as $q){
-											if(isset($val_rak)){
-												if($val_rak == $q['rak_id']){
-													echo '<option selected value="'.$q['rak_id'].'"> '.$q['rak_kode'].' </option>';
-												}else{
-													echo '<option value="'.$q['rak_id'].'"> '.$q['rak_kode'].' </option>';
-												}
-											}else{
-												echo '<option value="'.$q['rak_id'].'"> '.$q['rak_kode'].' </option>';
+									<?php
+									foreach ($filter_rak as $q) {
+										if (isset($val_rak)) {
+											if ($val_rak == $q['rak_id']) {
+												echo '<option selected value="' . $q['rak_id'] . '"> ' . $q['rak_kode'] . ' </option>';
+											} else {
+												echo '<option value="' . $q['rak_id'] . '"> ' . $q['rak_kode'] . ' </option>';
 											}
+										} else {
+											echo '<option value="' . $q['rak_id'] . '"> ' . $q['rak_kode'] . ' </option>';
 										}
+									}
 									?>
 								</select>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" name="filter_etalase" id="filter_etalase">
 									<option value="">--Pilih Etalase--</option>
-									<?php 
-										foreach($filter_etalase as $q){
-											if(isset($val_etalase)){
-												if($val_etalase == $q['etal_id']){
-													echo '<option selected value="'.$q['etal_id'].'"> '.$q['etal_kode'].' </option>';
-												}else{
-													echo '<option value="'.$q['etal_id'].'"> '.$q['etal_kode'].' </option>';
-												}
-											}else{
-												echo '<option value="'.$q['etal_id'].'"> '.$q['etal_kode'].' </option>';
+									<?php
+									foreach ($filter_etalase as $q) {
+										if (isset($val_etalase)) {
+											if ($val_etalase == $q['etal_id']) {
+												echo '<option selected value="' . $q['etal_id'] . '"> ' . $q['etal_kode'] . ' </option>';
+											} else {
+												echo '<option value="' . $q['etal_id'] . '"> ' . $q['etal_kode'] . ' </option>';
 											}
+										} else {
+											echo '<option value="' . $q['etal_id'] . '"> ' . $q['etal_kode'] . ' </option>';
 										}
+									}
 									?>
 								</select>
 							</div> -->
@@ -134,21 +134,15 @@
 
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
-						<h1 class="custom-font">Data <strong><?=$title?></strong></h1>
+						<h1 class="custom-font">Data <strong><?= $title ?></strong></h1>
 						<ul class="controls">
 							<li class="dropdown">
-								<a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
-									<i class="fa fa-cog"></i>
-									<i class="fa fa-spinner fa-spin"></i>
+
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
-								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-									<li>
-										<a role="button" tabindex="0" class="tile-toggle">
-											<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
-											<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
-										</a>
-									</li>
-								</ul>
+
 							</li>
 						</ul>
 					</div>
@@ -157,7 +151,9 @@
 					<!-- tile body -->
 					<div class="tile-body">
 						<div class="row">
-							<div class="col-md-6"><div id="tableTools"></div></div>
+							<div class="col-md-6">
+								<div id="tableTools"></div>
+							</div>
 							<div class="col-md-6">
 								<button id="clickTambah" style="float: right;" class="btn btn-ef btn-ef-5 btn-ef-5b btn-success mb-10" data-toggle="modal" data-target="#splash" data-options="splash-2 splash-ef-14"><i class="fa fa-plus"></i> <span>Tambah</span></button>
 							</div>
@@ -165,30 +161,30 @@
 						<br>
 						<table class="table table-custom" id="advanced-usage">
 							<thead>
-							<tr>
-								<th>Kode</th>
-								<th>Kategori Atas</th>
-								<th>Kategori</th>
-								<th>Sub Kategori</th>
-								<th style="width: 20%;">Nama</th>
-								<!-- <th>Min Stok</th> -->
-								<!-- <th>Max Stok</th> -->
-								<th>Stok</th>
-								<!-- <th>Selisih Stok</th> -->
-								<th>Tahun</th>
-								<th>Harga Beli</th>
-								<th>Harga Jual</th>
-								<th>Gambar</th>
-								<th>Berat</th>
-								<th>Satuan</th>
-								<!-- <th>Facebook</th>
+								<tr>
+									<th>Kode</th>
+									<th>Kategori Atas</th>
+									<th>Kategori</th>
+									<th>Sub Kategori</th>
+									<th style="width: 20%;">Nama</th>
+									<!-- <th>Min Stok</th> -->
+									<!-- <th>Max Stok</th> -->
+									<th>Stok</th>
+									<!-- <th>Selisih Stok</th> -->
+									<th>Tahun</th>
+									<th>Harga Beli</th>
+									<th>Harga Jual</th>
+									<th>Gambar</th>
+									<th>Berat</th>
+									<th>Satuan</th>
+									<!-- <th>Facebook</th>
 								<th>Tokopedia</th>
 								<th>Bukalapak</th>
 								<th>Shopee</th> -->
-								<!-- <th>Rak</th>
+									<!-- <th>Rak</th>
 								<th>Etalase</th> -->
-								<th style="text-align: right;">Pilihan &nbsp;&nbsp;</th>
-							</tr>
+									<th style="text-align: right;">Pilihan &nbsp;&nbsp;</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -203,7 +199,7 @@
 		<!-- /row -->
 
 	</div>
-	
+
 </section>
 
 <!-- Splash Modal -->
@@ -213,7 +209,7 @@
 			<div class="modal-header">
 				<h3 class="modal-title custom-font" id="myModalLabel">Form Produk</h3>
 			</div>
-			<form role="form" id="imageUploadForm" method="post"  enctype="multipart/form-data">
+			<form role="form" id="imageUploadForm" method="post" enctype="multipart/form-data">
 				<div class="modal-body">
 					<input type="hidden" name="id" value="0">
 					<div class="row">

@@ -77,7 +77,16 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font"><strong>Tagihan </strong>Admin</h1>
+						<ul class="controls">
+							<li class="dropdown">
 
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+								</a>
+
+							</li>
+						</ul>
 					</div>
 					<!-- /tile header -->
 					<!-- tile body -->
@@ -144,7 +153,16 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font"><strong>Pembayaran </strong>Suplier</h1>
+						<ul class="controls">
+							<li class="dropdown">
 
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+								</a>
+
+							</li>
+						</ul>
 					</div>
 					<!-- /tile header -->
 					<!-- tile body -->
@@ -211,7 +229,16 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font"><strong>Retur </strong>Perusahaan</h1>
+						<ul class="controls">
+							<li class="dropdown">
 
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+								</a>
+
+							</li>
+						</ul>
 					</div>
 					<!-- /tile header -->
 					<!-- tile body -->
@@ -279,7 +306,16 @@
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
 						<h1 class="custom-font"><strong>Retur </strong>Suplier</h1>
+						<ul class="controls">
+							<li class="dropdown">
 
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+								</a>
+
+							</li>
+						</ul>
 					</div>
 					<!-- /tile header -->
 					<!-- tile body -->
@@ -351,32 +387,12 @@
 						<ul class="controls">
 							<li class="dropdown">
 
-								<a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
-									<i class="fa fa-cog"></i>
-									<i class="fa fa-spinner fa-spin"></i>
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
 
-								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-									<li>
-										<a role="button" tabindex="0" class="tile-toggle">
-											<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
-											<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
-										</a>
-									</li>
-									<li>
-										<a role="button" tabindex="0" class="tile-refresh">
-											<i class="fa fa-refresh"></i> Refresh
-										</a>
-									</li>
-									<li>
-										<a role="button" tabindex="0" class="tile-fullscreen">
-											<i class="fa fa-expand"></i> Fullscreen
-										</a>
-									</li>
-								</ul>
-
 							</li>
-							<!-- <li class="remove"><a role="button" tabindex="0" class="tile-close"><i class="fa fa-times"></i></a></li> -->
 						</ul>
 					</div>
 					<!-- /tile header -->

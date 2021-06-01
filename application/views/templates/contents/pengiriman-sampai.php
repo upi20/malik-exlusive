@@ -19,19 +19,11 @@
 						<ul class="controls">
 							<li class="dropdown">
 
-								<a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
-									<i class="fa fa-cog"></i>
-									<i class="fa fa-spinner fa-spin"></i>
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
 
-								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-									<li>
-										<a role="button" tabindex="0" class="tile-toggle">
-											<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
-											<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
-										</a>
-									</li>
-								</ul>
 							</li>
 						</ul>
 					</div>
@@ -40,13 +32,13 @@
 					<!-- tile body -->
 					<div class="tile-body">
 						<!-- <form role="form" id="form_head" method="post"> -->
-							<div class="modal-body">
-								<div class="row">
-									<div class="col-md-12">
-										<!-- <button style="float: right;" id="add-detail" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button> -->
-										<br>
-										<table class="table table-custom" id="advanced-usage">
-											<thead>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-12">
+									<!-- <button style="float: right;" id="add-detail" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button> -->
+									<br>
+									<table class="table table-custom" id="advanced-usage">
+										<thead>
 											<tr>
 												<th>ID</th>
 												<th>Nama</th>
@@ -57,12 +49,12 @@
 												<th>Sisa</th>
 												<th>Keterangan</th>
 											</tr>
-											</thead>
-										</table>
-									</div>
+										</thead>
+									</table>
 								</div>
-								<hr>
 							</div>
+							<hr>
+						</div>
 						<!-- </form> -->
 					</div>
 					<!-- /tile body -->
@@ -76,5 +68,5 @@
 		<!-- /row -->
 
 	</div>
-	
+
 </section>

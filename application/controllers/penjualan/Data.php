@@ -22,7 +22,7 @@ class Data extends Render_Controller
 		} elseif ($this->level == "Manager") {
 			$this->content = 'penjualan-data-i';
 		} else {
-			$this->content = 'penjualan-data-o';
+			$this->content = 'penjualan-data-i';
 		}
 
 		$this->data['vendor'] 	= $this->db->get('supplier')->result_array();

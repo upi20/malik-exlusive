@@ -1,7 +1,22 @@
 <section id="content">
 
 	<div class="page page-tables-datatables">
+		<div class="pageheader">
 
+			<div class="page-bar">
+
+				<ul class="page-breadcrumb">
+					<li>
+						<a href="<?= base_url() ?>"><i class="fa fa-home"></i> Dashboard</a>
+					</li>
+					<li>
+						<a href="#">Produk</a>
+					</li>
+				</ul>
+
+			</div>
+
+		</div>
 
 
 		<!-- row -->
@@ -14,23 +29,15 @@
 
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
-						<h1 class="custom-font">Data <strong><?=$title?></strong></h1>
+						<h1 class="custom-font">Data <strong><?= $title ?></strong></h1>
 						<ul class="controls">
 							<li class="dropdown">
 
-								<a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
-									<i class="fa fa-cog"></i>
-									<i class="fa fa-spinner fa-spin"></i>
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
 
-								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-									<li>
-										<a role="button" tabindex="0" class="tile-toggle">
-											<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
-											<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
-										</a>
-									</li>
-								</ul>
 							</li>
 						</ul>
 					</div>
@@ -50,7 +57,7 @@
 									<th>Satuan</th>
 								</tr>
 							</thead>
-						</table>		
+						</table>
 					</div>
 					<!-- /tile body -->
 
@@ -63,7 +70,7 @@
 		<!-- /row -->
 
 	</div>
-	
+
 </section>
 
 <!-- Splash Modal -->
@@ -178,7 +185,7 @@
 								<input type="file" class="form-control" name="file" id="file">
 							</div>
 						</div>
-						
+
 					</div>
 					<div class="row" style="display: none;">
 						<div class="col-md-12">

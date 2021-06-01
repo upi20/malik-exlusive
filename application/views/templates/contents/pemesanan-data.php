@@ -1,4 +1,4 @@
-<input type="hidden" value="<?=$this->level?>" id="value_level">
+<input type="hidden" value="<?= $this->level ?>" id="value_level">
 <section id="content">
 
 	<div class="page page-tables-datatables">
@@ -9,13 +9,13 @@
 
 				<ul class="page-breadcrumb">
 					<li>
-						<a href="<?=base_url()?>"><i class="fa fa-home"></i> Dashboard</a>
+						<a href="<?= base_url() ?>"><i class="fa fa-home"></i> Dashboard</a>
 					</li>
 					<li>
 						<a href="#">Pemesanan</a>
 					</li>
 					<li>
-						<a href="<?=base_url()?>pemesanan/data">Data</a>
+						<a href="<?= base_url() ?>pemesanan/data">Data</a>
 					</li>
 				</ul>
 
@@ -35,23 +35,15 @@
 
 					<!-- tile header -->
 					<div class="tile-header dvd dvd-btm">
-						<h1 class="custom-font"><strong><?=$title?></strong></h1>
+						<h1 class="custom-font"><strong><?= $title ?></strong></h1>
 						<ul class="controls">
 							<li class="dropdown">
 
-								<a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
-									<i class="fa fa-cog"></i>
-									<i class="fa fa-spinner fa-spin"></i>
+								<a role="button" tabindex="0" class="tile-toggle">
+									<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+									<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
 								</a>
 
-								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
-									<li>
-										<a role="button" tabindex="0" class="tile-toggle">
-											<span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
-											<span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
-										</a>
-									</li>
-								</ul>
 							</li>
 						</ul>
 					</div>
@@ -59,26 +51,28 @@
 
 					<!-- tile body -->
 					<div class="tile-body">
-						<?php if($this->level == "Staff"):?>
+						<?php if ($this->level == "Staff") : ?>
 							<div class="row">
-								<div class="col-md-6"><div id="tableTools"></div></div>
 								<div class="col-md-6">
-									<a style="float: right;" href="<?=base_url()?>pemesanan/tambah" class="btn btn-success">Tambah</a>
+									<div id="tableTools"></div>
+								</div>
+								<div class="col-md-6">
+									<a style="float: right;" href="<?= base_url() ?>pemesanan/tambah" class="btn btn-success">Tambah</a>
 								</div>
 							</div>
 							<br>
-						<?php endif;?>
+						<?php endif; ?>
 						<table class="table table-custom" id="advanced-usage">
 							<thead>
-							<tr>
-								<th>Kode</th>
-								<th>Total Harga</th>
-								<th>Total Bayar</th>
-								<th>Sisa</th>
-								<th>Tanggal</th>
-								<th>Status</th>
-								<th>Pilihan</th>
-							</tr>
+								<tr>
+									<th>Kode</th>
+									<th>Total Harga</th>
+									<th>Total Bayar</th>
+									<th>Sisa</th>
+									<th>Tanggal</th>
+									<th>Status</th>
+									<th>Pilihan</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -93,7 +87,7 @@
 		<!-- /row -->
 
 	</div>
-	
+
 </section>
 
 <!-- Splash Modal -->
@@ -117,7 +111,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<label for="exampleInputPassword1">Index</label>
-								<input type="number" class="form-control" id="index" placeholder="Masukan Index" required="">
+							<input type="number" class="form-control" id="index" placeholder="Masukan Index" required="">
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
@@ -130,9 +124,9 @@
 							</div>
 						</div>
 					</div>
-					 <div class="row">
+					<div class="row">
 						<div class="col-md-12">
-							
+
 						</div>
 					</div>
 				</div>
