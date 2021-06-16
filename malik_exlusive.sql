@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Jun 2021 pada 19.32
+-- Waktu pembuatan: 17 Apr 2021 pada 01.37
 -- Versi server: 10.4.18-MariaDB
--- Versi PHP: 7.4.16
+-- Versi PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,14 +58,6 @@ CREATE TABLE `customers` (
   `status` varchar(20) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `customers`
---
-
-INSERT INTO `customers` (`id`, `nama`, `email`, `perusahaan`, `no_hp`, `alamat`, `status`, `tanggal`) VALUES
-(1, 'ADIBA BUTIK', '', 'CGD', '', '', '', '2021-04-28 06:52:55'),
-(2, 'FASYHA BUTIK', '', 'JUPITER', '', '', '', '2021-04-28 06:53:17');
 
 -- --------------------------------------------------------
 
@@ -145,7 +137,8 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`kate_id`, `kate_kate_id`, `kate_level`, `kate_nama`, `kate_deskripsi`, `kate_status`, `tanggal`) VALUES
-(42, 0, 1, 'Fashion', '-', NULL, '2021-03-22 20:00:31');
+(42, 0, 1, 'Fashion', '-', NULL, '2021-03-22 20:00:31'),
+(43, 0, 1, 'Minuman', '-', NULL, '2021-03-19 13:41:23');
 
 -- --------------------------------------------------------
 
@@ -271,7 +264,7 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_name`, `menu_description`, 
 (124, 0, 'Packer', '', 8, 'fa fa-users', 'packer/data', 'Aktif', '2021-03-31 11:35:42'),
 (125, 0, 'Toko', '-', 9, 'fa fa-user-md', 'toko/data', 'Aktif', '2021-04-06 14:25:29'),
 (126, 69, 'Stok Supplier', '-', 3, 'fa fa-caret-right', 'laporan/stok_supplier', 'Aktif', '2021-04-13 07:54:33'),
-(127, 69, 'Packer   ', '-', 4, 'fa fa-caret-right', 'laporan/packer', 'Aktif', '2021-06-01 13:37:42');
+(127, 69, 'Packer', '-', 4, 'fa fa-caret-right', 'laporan/packer', 'Aktif', '2021-04-13 06:02:08');
 
 -- --------------------------------------------------------
 
@@ -294,9 +287,9 @@ CREATE TABLE `packer` (
 --
 
 INSERT INTO `packer` (`pack_id`, `pack_kode`, `pack_nama`, `pack_email`, `pack_telepon`, `pack_alamat`, `pack_status`) VALUES
-(2, '', 'UMAN', 'indra@gmail.com', '0881321231239', 'Bandung', 0),
-(3, '', 'TOHA', 'andri@gmail.com', '0881231231', 'Bandung', 0),
-(7, '', 'FIRMAN', 'isep@gmail.com', '1234567890', 'Cianjur', 0);
+(2, '', 'Indra', 'indra@gmail.com', '0881321231239', 'Bandung', 0),
+(3, '', 'Andri', 'andri@gmail.com', '0881231231', 'Cimahi', 0),
+(7, '', 'zzz', 'zzz', '12344', '2021-04-06', 0);
 
 -- --------------------------------------------------------
 
@@ -318,6 +311,18 @@ CREATE TABLE `pengadaan` (
   `peng_status_purchasing` varchar(20) NOT NULL,
   `peng_status_manager` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `pengadaan`
+--
+
+INSERT INTO `pengadaan` (`peng_id`, `peng_total_harga`, `peng_dibayar`, `peng_sisa`, `peng_keterangan`, `peng_tanggal`, `peng_cust_id`, `peng_supp_id`, `peng_status`, `peng_generate`, `peng_status_purchasing`, `peng_status_manager`) VALUES
+('PMP-2021-00001', 19200000, 0, 19200000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima'),
+('PMP-2021-00002', 7200000, 0, 7200000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima'),
+('PMP-2021-00003', 3180000, 0, 3180000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima'),
+('PMP-2021-00004', 1800000, 0, 1800000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima'),
+('PMP-2021-00005', 2400000, 0, 2400000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima'),
+('PMP-2021-00006', 1500000, 0, 1500000, '-', '2021-04-13', 0, 0, 'Selesai', 0, 'terima', 'terima');
 
 -- --------------------------------------------------------
 
@@ -376,6 +381,14 @@ CREATE TABLE `penjualan` (
   `penj_berkas` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `penjualan`
+--
+
+INSERT INTO `penjualan` (`penj_id`, `penj_toko_id`, `penj_user_id`, `penj_pack_id`, `penj_nama`, `penj_no_hp`, `penj_alamat`, `penj_total_harga`, `penj_dibayar`, `penj_sisa`, `penj_status`, `penj_lokasi`, `penj_tanggal`, `penj_driver`, `penj_tanggal_pengiriman`, `penj_status_pengiriman`, `penj_supe_id`, `penj_keterangan`, `penj_awal`, `penj_akhir`, `penj_kondisi`, `penj_kendaraan`, `penj_no_resi`, `penj_kurir`, `penj_admin`, `penj_berkas`) VALUES
+('PMP-00020', 1, 55, 0, 'OE', '8751772', 'Bandung', NULL, NULL, NULL, NULL, NULL, '2021-04-13', '', '0000-00-00', '', 0, 'ok', '', '', '', '', '9876545', 'COD', 1, ''),
+('PMP-00023', 2, 55, 2, 'AI', '8751772', 'Jakarta', NULL, NULL, NULL, NULL, NULL, '2021-04-16', '', '2021-04-16', 'kirim', 0, 'ok', '', '', '', '', '9876546', 'COD', 1, '');
+
 -- --------------------------------------------------------
 
 --
@@ -392,7 +405,6 @@ CREATE TABLE `penjualan_detail` (
   `pede_driver` varchar(50) NOT NULL,
   `pede_kendaraan` varchar(50) NOT NULL,
   `pede_tanggal_kirim` datetime NOT NULL,
-  `pede_tanggal_retur` datetime DEFAULT NULL,
   `pede_jumlah` int(11) NOT NULL,
   `pede_total_harga` int(11) NOT NULL,
   `pede_prod_id` int(11) DEFAULT NULL,
@@ -401,18 +413,18 @@ CREATE TABLE `penjualan_detail` (
   `pede_supp_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `penjualan_detail_vendor`
+-- Dumping data untuk tabel `penjualan_detail`
 --
 
-CREATE TABLE `penjualan_detail_vendor` (
-  `id` int(11) NOT NULL,
-  `pede_id` int(11) NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `penjualan_detail` (`pede_id`, `pede_penj_id`, `pede_kate_id`, `pede_kate_id_2`, `pede_kate_id_3`, `pede_status_pengiriman`, `pede_driver`, `pede_kendaraan`, `pede_tanggal_kirim`, `pede_jumlah`, `pede_total_harga`, `pede_prod_id`, `pede_harga`, `pede_keterangan`, `pede_supp_id`) VALUES
+(50, 'PMP-00020', 42, 0, 0, '', '', '', '2021-04-27 22:35:35', 1, 15000, 51, 15000, '', 0),
+(51, 'PMP-00020', 42, 0, 0, '', '', '', '2021-04-27 22:35:33', 2, 30000, 53, 15000, '', 0),
+(52, 'PMP-00020', 42, 0, 0, '', '', '', '2021-04-29 22:35:30', 3, 45000, 54, 15000, '', 0),
+(53, 'PMP-00023', 42, 0, 0, '', '', '', '2021-04-30 22:35:28', 1, 15000, 55, 15000, '', 0),
+(54, 'PMP-00023', 42, 0, 0, '', '', '', '2021-04-13 22:35:26', 2, 30000, 51, 15000, '', 0),
+(55, 'PMP-00023', 42, 0, 0, 'retur', '', '', '2021-04-16 22:35:23', 3, 45000, 53, 15000, '', 3),
+(56, 'PMP-00023', 42, 0, 0, 'kirim', '', '', '2021-04-16 15:05:06', 3, 45000, 54, 15000, '', 3);
 
 -- --------------------------------------------------------
 
@@ -463,10 +475,10 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`prod_id`, `prod_kode`, `prod_kate_id`, `prod_kate_id_2`, `prod_kate_id_3`, `prod_nama`, `prod_stok`, `prod_harga_beli`, `prod_harga_jual`, `prod_status`, `prod_gambar`, `prod_berat`, `prod_min_stok`, `prod_max_stok`, `prod_selisih_stok`, `prod_tahun`, `prod_supp_id`, `prod_vendor`, `tanggal`, `prod_special`) VALUES
-(51, 'QMB -A', 42, 0, 0, ' Qilla Mustard Black  size L', 0, 60000, 70000, NULL, '', '1', 0, 0, 17, 0, 0, '', '2021-06-01 17:29:40', 'Pcs'),
-(53, 'PD -C', 42, 0, 0, ' Prita Dusty Size XXL', 0, 60000, 70000, 'Tersedia', '', '1', 0, 0, 0, 0, 0, '', '2021-05-30 13:01:08', 'Pcs'),
-(63, 'zm-zmyb', 42, 0, 0, 'ZM Zaskia Mecca - Yogya Blush Scarf Kerudung Segi Empat', 0, 45000, 55000, NULL, '', '1', 0, 0, 114, 0, 0, '', '2021-06-01 17:29:43', 'Pcs'),
-(64, 'bjm-pdpl-xl', 42, 0, 0, 'Prita Dusty Size  XL', 0, 250000, 250000, NULL, '', '1', 0, 0, 6, 0, 0, '', '2021-06-01 17:29:29', 'Pcs');
+(51, 'QMB -A', 42, 0, 0, ' Qilla Mustard Black  size L', 264, 60000, 70000, NULL, '', '1', 0, 0, 264, 0, 0, '', '2021-04-13 06:51:35', 'Pcs'),
+(53, 'PD -C', 42, 0, 0, ' Prita Dusty Size XXL', 289, 60000, 70000, NULL, '', '1', 0, 0, 289, 0, 0, '', '2021-04-13 04:42:27', 'Pcs'),
+(54, 'SAM -B', 42, 0, 0, ' Sadira Abu Muda Size XL', 90, 60000, 70000, NULL, '', '1', 0, 0, 90, 0, 0, '', '2021-04-13 04:35:32', 'Pcs'),
+(55, 'LP-L', 42, 0, 0, 'Lilla Pink Size L', 148, 60000, 70000, NULL, '', '1', 0, 0, 148, 0, 0, '', '2021-04-13 05:02:39', 'Pcs');
 
 -- --------------------------------------------------------
 
@@ -480,6 +492,17 @@ CREATE TABLE `produk_stok` (
   `id_supplier` int(11) DEFAULT NULL,
   `jumlah` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `produk_stok`
+--
+
+INSERT INTO `produk_stok` (`id`, `id_produk`, `id_supplier`, `jumlah`) VALUES
+(1, 51, 4, 50),
+(2, 53, 4, 80),
+(3, 54, 4, 90),
+(4, 55, 4, 100),
+(5, 51, 3, 120);
 
 -- --------------------------------------------------------
 
@@ -508,6 +531,7 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `rola_c`,
 (3, 20, 1, NULL, NULL, NULL, NULL, '2019-05-23 19:11:09'),
 (15, 27, 1, NULL, NULL, NULL, NULL, '2019-06-11 10:24:53'),
 (18, 37, 1, NULL, NULL, NULL, NULL, '2019-06-11 10:35:04'),
+(44, 1, 8, NULL, NULL, NULL, NULL, '2019-07-15 13:20:09'),
 (45, 56, 8, NULL, NULL, NULL, NULL, '2019-07-15 13:20:17'),
 (54, 69, 1, NULL, NULL, NULL, NULL, '2019-07-16 11:40:12'),
 (55, 82, 1, NULL, NULL, NULL, NULL, '2019-07-16 11:40:20'),
@@ -516,6 +540,7 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `rola_c`,
 (67, 56, 7, NULL, NULL, NULL, NULL, '2019-07-30 19:48:13'),
 (101, 56, 5, NULL, NULL, NULL, NULL, '2019-09-28 11:16:03'),
 (102, 20, 8, NULL, NULL, NULL, NULL, '2019-10-01 05:07:45'),
+(105, 1, 5, NULL, NULL, NULL, NULL, '2019-10-01 05:12:32'),
 (110, 36, 5, NULL, NULL, NULL, NULL, '2019-10-04 06:40:44'),
 (120, 111, 5, NULL, NULL, NULL, NULL, '2019-11-11 04:25:25'),
 (121, 112, 5, NULL, NULL, NULL, NULL, '2019-11-11 04:25:33'),
@@ -538,8 +563,7 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `rola_c`,
 (152, 124, 8, NULL, NULL, NULL, NULL, '2021-03-31 11:35:56'),
 (154, 126, 9, NULL, NULL, NULL, NULL, '2021-04-13 04:46:03'),
 (155, 127, 9, NULL, NULL, NULL, NULL, '2021-04-13 06:02:42'),
-(156, 125, 9, NULL, NULL, NULL, NULL, '2021-04-13 07:39:51'),
-(157, 124, 9, NULL, NULL, NULL, NULL, '2021-04-19 02:30:44');
+(156, 125, 9, NULL, NULL, NULL, NULL, '2021-04-13 07:39:51');
 
 -- --------------------------------------------------------
 
@@ -589,10 +613,8 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supp_id`, `supp_kode`, `supp_nama`, `supp_email`, `supp_telpon`, `supp_no_hp`, `supp_alamat`, `supp_status`, `tanggal`) VALUES
-(3, 'MA', 'Malsi', '', '', '', 'Jalan Mars 2', '', '2021-04-28 09:40:40'),
-(4, 'TI', 'Titan', '', '', '', 'jl ujung berung', '', '2021-04-28 09:40:45'),
-(8, 'FJ', 'Fajar', '', '', '', 'BDG', '', '2021-04-28 09:40:51'),
-(9, 'RD', 'RIDHA-TSK', '', '', '', 'TASIK', '', '2021-06-01 16:12:39');
+(3, 'M', 'Malsi', 'Malsi@gmail.com', '022768977', '082932429482', 'Jalan Mars 2', '', '2021-04-06 03:22:38'),
+(4, 'T', 'Titan', 'Titan@gmail.com', '87347023', '082932429482', 'jl ujung berung', '', '2021-04-06 03:23:24');
 
 -- --------------------------------------------------------
 
@@ -613,14 +635,8 @@ CREATE TABLE `toko` (
 --
 
 INSERT INTO `toko` (`id`, `nama`, `nama_lengkap`, `no_hp`, `tanggal`) VALUES
-(2, 'Butik Aqila 2', 'Butik Aqila 2', '123456789', '2021-04-01'),
-(7, 'Butik Aqila 3', 'Butik Aqila 3', '1234567', '2021-04-19'),
-(8, 'Butik Aqila 4', 'Butik Aqila 4', '1234567', '2021-04-19'),
-(9, 'Butik Aqila 5', 'Butik Aqila 5', '1234567', '2021-04-19'),
-(10, 'Butik Aqila 6', 'Butik Aqila 6', '1234567', '2021-04-19'),
-(11, 'Butik Aqila 7', 'Butik Aqila 7', '12567', '2021-04-19'),
-(12, 'Butik Aqila 8', 'Butik Aqila 8', '1234567', '2021-04-19'),
-(13, 'Butik Aqila 9', 'Butik Aqila 9', '1234567', '2021-04-19');
+(1, 'Butik Aqilla', 'Soni Setiawan', '082112879521', '2021-03-22'),
+(2, 'Butik Aqila 2', 'Butik Aqila 2', '0881231231', '2021-04-01');
 
 -- --------------------------------------------------------
 
@@ -750,12 +766,6 @@ ALTER TABLE `penjualan_detail`
   ADD KEY `pede_prod_id` (`pede_prod_id`);
 
 --
--- Indeks untuk tabel `penjualan_detail_vendor`
---
-ALTER TABLE `penjualan_detail_vendor`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `penjualan_pembayaran`
 --
 ALTER TABLE `penjualan_pembayaran`
@@ -823,7 +833,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `driver`
@@ -853,7 +863,7 @@ ALTER TABLE `karyawan_hutang`
 -- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `kate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `kate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT untuk tabel `kendaraan`
@@ -883,43 +893,37 @@ ALTER TABLE `packer`
 -- AUTO_INCREMENT untuk tabel `pengadaan_detail`
 --
 ALTER TABLE `pengadaan_detail`
-  MODIFY `pend_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pend_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `penjualan_detail`
 --
 ALTER TABLE `penjualan_detail`
-  MODIFY `pede_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `penjualan_detail_vendor`
---
-ALTER TABLE `penjualan_detail_vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pede_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT untuk tabel `penjualan_pembayaran`
 --
 ALTER TABLE `penjualan_pembayaran`
-  MODIFY `pepe_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pepe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `prod_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `prod_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT untuk tabel `produk_stok`
 --
 ALTER TABLE `produk_stok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT untuk tabel `role_users`
@@ -931,13 +935,13 @@ ALTER TABLE `role_users`
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `supp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `toko`
 --
 ALTER TABLE `toko`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
